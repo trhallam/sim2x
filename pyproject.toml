@@ -1,0 +1,17 @@
+[project]
+name = "sim2x"
+
+[build-system]
+requires = ["setuptools", "wheel", "setuptools_scm>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+write_to = "src/sim2x/_version.py"
+local_scheme = "no-local-version"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "--cov=digirock --junitxml=pytest.xml --cov-report=term-missing:skip-covered"
+testpaths = [
+    "tests"
+]
