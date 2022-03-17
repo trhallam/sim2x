@@ -7,6 +7,8 @@ import pathlib
 
 import numpy as np
 
+from ..typing import NDArrayOrFloat
+
 ##  LIST TOOLS
 
 
@@ -76,19 +78,6 @@ def ndim_index_list(n):
         raise ValueError("n must be of type list containing integer values")
 
 
-def denom_zdiv(a, b):
-    """Helper function to avoid divide by zero in many areas.
-
-    Args:
-        a (array-like): Numerator
-        b (array-like): Deominator
-
-    Returns:
-        a/b (array-like): Replace div0 by 0
-    """
-    return np.divide(a, b, out=np.zeros_like(b), where=b != 0.0)
-
-
 def module_loader(module_name, module_path):
     """Loads a Python file or module dynamically for use in scripts.
     Args:
@@ -104,3 +93,50 @@ def module_loader(module_name, module_path):
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def check_broadcastable(**kwargs: NDArrayOrFloat) -> tuple:
+    """Check that kwargs can be numpy broadcast against each other for matrix
+    operations.
+    Args:
+        kwargs: Keywords to check with float of array-like values.
+    Returns
+        Shapes of broadcast keywords
+    Raises:
+        ValueError if not broadcastable
+    """
+    check_argshapes = [np.atleast_1d(arg).shape for arg in kwargs.values()]
+
+    try:
+        shapes = np.broadcast_shapes(*tuple(check_argshapes))
+    except:
+        msg = f"Cannot broadcast shapes: " + ", ".join(
+            [f"{name}:{shp}" for name, shp in zip(kwargs, check_argshapes)]
+        )
+        raise ValueError(msg)
+
+    return shapes
+
+
+def safe_divide(a: NDArrayOrFloat, b: NDArrayOrFloat) -> NDArrayOrFloat:
+    """Helper function to avoid divide by zero in arrays and floats.
+    Args:
+        a: Numerator
+        b: Denominator
+    Returns:
+        a/b replace div0 by 0
+    """
+    bc_shp = check_broadcastable(a=a, b=b)
+    return np.divide(a, b, out=np.zeros(bc_shp), where=b != 0.0)
+
+
+def nan_divide(a: NDArrayOrFloat, b: NDArrayOrFloat) -> NDArrayOrFloat:
+    """Helper function to avoid divide by zero in arrays and floats.
+    Args:
+        a: Numerator
+        b: Denominator
+    Returns:
+        a/b replace div0 by np.nan
+    """
+    bc_shp = check_broadcastable(a=a, b=b)
+    return np.divide(a, b, out=np.full(bc_shp, np.nan), where=b != 0.0)

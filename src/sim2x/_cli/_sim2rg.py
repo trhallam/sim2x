@@ -3,6 +3,7 @@ from loguru import logger
 from pydantic import FilePath, Field, BaseModel
 
 from segysak.segy import segy_loader
+from segysak import open_seisnc
 from dataicer import DirectoryHandler
 from dataicer.plugins import get_pandas_handlers
 
@@ -44,7 +45,11 @@ class _Sim2rgConfigIO(BaseModel):
         "", description="The iced model path (output of eclx export)"
     )
     segypath: str = Field(
-        "", description="The segy file whose geometry will be used for the regular grid"
+        None,
+        description="The segy file whose geometry will be used for the regular grid",
+    )
+    seisncpath: str = Field(
+        None, description="If using geometry from previously converted seisnc file"
     )
     outpath: str = Field("", description="The output path of the regular grid")
     jobs: int = Field(
@@ -99,9 +104,17 @@ def rg(config_file, jobs=None, debug=False):
     config = Sim2rgConfig.parse_raw(config_file.read())
     logger.debug(config)
 
-    logger.info(f"Getting geometry from segy: {config.IO.segypath}")
-    geometry = segy_loader(config.IO.segypath, return_geometry=True)
-    logger.info("Loaded segy geometry")
+    if config.IO.segypath is not None:
+        logger.info(f"Getting geometry from segy: {config.IO.segypath}")
+        geometry = segy_loader(config.IO.segypath, return_geometry=True)
+        logger.info("Loaded segy geometry")
+    elif config.IO.seisncpath is not None:
+        logger.info(f"Getting geometry from seisnc: {config.IO.seisncpath}")
+        geometry = open_seisnc(config.IO.seisncpath)
+        logger.info("Loaded seisnc geometry")
+    else:
+        logger.error("Need an input geometry")
+        raise SystemExit
 
     mapping = tuple(key for key in geometry.dims if key != "twt")
     logger.info(f"Found trace dimensions {mapping}")
