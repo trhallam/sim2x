@@ -2,7 +2,12 @@ import click
 from loguru import logger
 from pydantic import FilePath, Field, BaseModel
 
+from segysak.segy import segy_loader
+from dataicer import DirectoryHandler
+from dataicer.plugins import get_pandas_handlers
 
+from ..utils._cluster import get_client
+from .._cp2rg import cpgrid_to_rg
 from .._version import version as __version__
 from .config import Sim2Config
 
@@ -63,6 +68,9 @@ class _Sim2rgConfigSampling(BaseModel):
     max_xline: int = Field(None, description="The maximum crossline sample")
     iline_step: int = Field(None, description="The inline sample step")
     xline_step: int = Field(None, description="The crossline sample step")
+    vertical_buffer: int = Field(
+        None, description="Vertical buffer to output above and below model in samples"
+    )
 
 
 class Sim2rgConfig(Sim2Config):
@@ -83,7 +91,7 @@ Sim2rgConfig.__doc__ = RG_CONFIG_DOC
     type=click.IntRange(1, 4),
 )
 @click.option("-d", "--debug", help="Activate debugging output.", default=False)
-def rg(config_file, jobs=1, debug=False):
+def rg(config_file, jobs=None, debug=False):
     """Convert a simulation corner point grid to a regular grid with a glocal cell index (GI)"""
     click.secho(f"{NAME} - v{__version__}\n - {__name__}")
 
@@ -91,5 +99,48 @@ def rg(config_file, jobs=1, debug=False):
     config = Sim2rgConfig.parse_raw(config_file.read())
     logger.debug(config)
 
-    print(config)
-    pass
+    logger.info(f"Getting geometry from segy: {config.IO.segypath}")
+    geometry = segy_loader(config.IO.segypath, return_geometry=True)
+    logger.info("Loaded segy geometry")
+
+    mapping = tuple(key for key in geometry.dims if key != "twt")
+    logger.info(f"Found trace dimensions {mapping}")
+
+    logger.info(f"Loading sim grid")
+    dh = DirectoryHandler(config.IO.modelpath, get_pandas_handlers(), "r")
+    sim = dh.deice()["eclxsim"]
+    xyzcorn = sim.xyzcorn.copy()
+    del sim
+    logger.info(f"Loaded sim grid")
+
+    if jobs is None:
+        jobs = config.IO.jobs
+
+    logger.debug(f"Jobs is {jobs}")
+
+    if jobs == 1:
+        gi = cpgrid_to_rg(
+            geometry.drop_dims("twt"),
+            xyzcorn,
+            mapping_dims=mapping,
+            buffer=config.SAMPLING.vertical_buffer,
+            srate=config.SAMPLING.sample_rate,
+        )
+    else:
+        client = get_client(njobs=jobs)
+        logger.info(f"dask dashboard: {client.dashboard_link}")
+        gi_task = cpgrid_to_rg(
+            geometry.drop_dims("twt").chunk({key: 5 for key in mapping}),
+            xyzcorn,
+            mapping_dims=mapping,
+            buffer=config.SAMPLING.vertical_buffer,
+            srate=config.SAMPLING.sample_rate,
+            client=client,
+        )
+        gi = gi_task.compute()
+        client.cancel(gi_task)
+
+    logger.info("saving gi volume to nc file")
+    gi.seisio.to_netcdf(config.IO.outpath)
+
+    logger.info("finished")
