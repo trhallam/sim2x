@@ -11,81 +11,117 @@ from scipy.interpolate import interp1d
 from ..typing import Pathlike
 
 
-def ricker(nsamp: int, dt: float, f: float) -> np.ndarray:
+spectra_dtype = np.dtype(
+    [("freq", "f8"), ("amp", "c8"), ("mag", "f8"), ("phase", "f8")]
+)
+wavelet_dtype = np.dtype([("time", "f8"), ("amp", "f8")])
+
+
+def zero_phase_time_axis(nsamp: int, dt: float) -> np.ndarray:
+    """Create a zero phase symetrical time axis with `nsamp`
+
+    Args:
+        nsamp: Number of samples
+        dt: Sample rate
+
+    Returns:
+        time axis array
+    """
+    return np.linspace(-nsamp / 2, nsamp / 2, nsamp + 1, dtype=float) * dt
+
+
+def ricker(nsamp: int, dt: float, f: float) -> wavelet_dtype:
     """Create a Ricker Wavelet
 
-    Create an analytical Ricker wavelet with a dominant frequency of f.
-    Length in samples, dt im mSec, f in Hertz
+    Create an analytical Ricker wavelet with a dominant frequency of `f`.
+    Length in samples, `dt` im mSec, `f` in Hertz
 
     Args:
         nsamp: Number of samples in wavelet
-        dt: Sample rate in s
+        dt: Sample rate in (s)
         f: Dominant Frequency of the wavelet in Hz
 
     Returns:
         Structured array of length nsamp+1 tuples ('time', 'amp')
     """
-    out = np.zeros((nsamp + 1), dtype=[("time", float), ("amp", float)])
-    out[("time")] = (
-        np.linspace(-nsamp / 2, nsamp / 2, nsamp + 1, dtype=float) * dt
-    )  # zero phase symetrical
-    out[("amp")] = (1 - 2 * np.square(np.pi * f * out[("time")])) * np.exp(
-        -np.square(np.pi * f * out[("time")])
-    )
-    return out
+    time = zero_phase_time_axis(nsamp, dt)
+    amp = (1 - 2 * np.square(np.pi * f * time)) * np.exp(-np.square(np.pi * f * time))
+    return np.array([zipped for zipped in zip(time, amp)], dtype=wavelet_dtype)
 
 
 def ormsby(
     nsamp: int, dt: float, f1: float, f2: float, f3: float, f4: float, norm: bool = True
-) -> np.ndarray:
-    """Create an Ormsby filtered wavelet"""
-    out = np.zeros((nsamp + 1), dtype=[("time", float), ("amp", float)])
-    out[("time")] = (
-        np.linspace(-nsamp / 2, nsamp / 2, nsamp + 1) * dt
-    )  # zero phase symetrical
+) -> wavelet_dtype:
+    """Create an Ormsby filtered wavelet
+
+    Args:
+        nsamp: Number of samples in wavelet
+        dt: Sample rate in (s)
+        f1: Low frequency cut off (Hz)
+        f2: Low frequency pass (Hz)
+        f3: High frequency pass (Hz)
+        f4: High freuency cut off (Hz)
+        norm: Normalise the wavelet
+
+    Returns:
+        Structured array of length nsamp+1 tuples ('time', 'amp')
+    """
+    time = zero_phase_time_axis(nsamp, dt)
     pi = np.pi
     c1 = np.square(pi * f4) / (pi * f4 - pi * f3)
     c2 = np.square(pi * f3) / (pi * f4 - pi * f3)
     c3 = np.square(pi * f2) / (pi * f2 - pi * f1)
     c4 = np.square(pi * f1) / (pi * f2 - pi * f1)
 
-    out[("amp")] = (
-        c1 * np.square(np.sinc(pi * f4 * out[("time")]))
-        - c2 * np.square(np.sinc(pi * f3 * out[("time")]))
-        - c3 * np.square(np.sinc(pi * f2 * out[("time")]))
-        + c4 * np.square(np.sinc(pi * f1 * out[("time")]))
+    amp = (
+        c1 * np.square(np.sinc(pi * f4 * time))
+        - c2 * np.square(np.sinc(pi * f3 * time))
+        - c3 * np.square(np.sinc(pi * f2 * time))
+        + c4 * np.square(np.sinc(pi * f1 * time))
     )
     if norm:
-        out[("amp")] = out[("amp")] / np.max(out[("amp")])
-    return out
+        amp = amp / np.max(amp)
+    return np.array([zipped for zipped in zip(time, amp)], dtype=wavelet_dtype)
 
 
-def bandpass(nsamp, dt, f1, f2, f3, f4, norm=True, precision=0.1):
+def bandpass(
+    nsamp: int,
+    dt: float,
+    f1: float,
+    f2: float,
+    f3: float,
+    f4: float,
+    norm: bool = True,
+    precision: float = 0.1,
+) -> wavelet_dtype:
     """Create a bandpass wavelet
 
     Args:
-        nsamp (int): Number of samples in wavelet
-        dt (float): Sample rate in seconds
-        f1 (float): Lower frequency off
-        f2 (float): Lower frequency on
-        f3 (float): Upper frequency on
-        f4 (float): Upper frequency off
+        nsamp: Number of samples in wavelet
+        dt: Sample rate in seconds
+        f1: Lower frequency off
+        f2: Lower frequency on
+        f3: Upper frequency on
+        f4: Upper frequency off
+        norm: Normalise the output
+        precision: in frequency domain (1/Hz)
 
     Returns:
-        (numpy.ndarray): Structured array of length nsamp+1 tuples ('time', 'amp')
+        Structured array of length nsamp+1 tuples ('time', 'amp')
 
     Notes:
         Bandpass amplitude spectrum.
 
-           1         f2________f3
-                     /          \
-                    /            \
-           0  _____/              \______
-                  f1              f4
+        ```
+        1         f2________f3
+                  /          \\
+                 /            \\
+        0  _____/              \\______
+               f1               f4
+        ```
 
     """
-    out = np.zeros((nsamp + 1), dtype=[("time", float), ("amp", float)])
-    out[("time")] = np.linspace(-nsamp / 2, nsamp / 2, nsamp + 1) * dt
+    time = zero_phase_time_axis(nsamp, dt)
     # frequency domain spectrum and filtering
     precision = int(1 / precision)
     spec_samp = nsamp * precision
@@ -110,43 +146,94 @@ def bandpass(nsamp, dt, f1, f2, f3, f4, norm=True, precision=0.1):
     time_amp = np.r_[time_amp[hnf:], time_amp[:hnf]]
     # interpolation to out
     amp_func = interp1d(spec_time[:-1], time_amp.real[1:], kind="cubic")
-    out[("amp")] = amp_func(out[("time")])
+    amp = amp_func(time)
     if norm:
-        out[("amp")] = out[("amp")] / np.max(out[("amp")])
-    return out
+        amp = amp / np.max(amp)
+    return np.array([zipped for zipped in zip(time, amp)], dtype=wavelet_dtype)
 
 
-def gabor(nsamp, dt, a, k0):
+def gabor(nsamp: int, dt: float, a: float, k0: float) -> wavelet_dtype:
     """Gabor wavelet - Gausian modulated by an exponential
 
     Args:
-        nsamp (int):
-        dt (float):
-        a (float): rate of exponential attenuation away from t=0
-        k0 (float): rate of modulation
+        nsamp: Number of samples in the wavelet
+        dt: Sample rate of the wavelet (s)
+        a: rate of exponential attenuation away from t=0
+        k0: rate of modulation
+
+    Returns:
+        Structured array of length nsamp+1 tuples ('time', 'amp')
     """
-    out = np.zeros((nsamp + 1), dtype=[("time", float), ("amp", float)])
-    out[("time")] = np.linspace(-nsamp / 2, nsamp / 2, nsamp + 1) * dt
+    time = zero_phase_time_axis(nsamp, dt)
     i = np.complex(0, 1)
-    out[("amp")] = np.real(
-        np.exp(-1 * np.square(out[("time")]) / (a * a))
-        * np.exp(-i * k0 * out[("time")])
+    amp = np.real(np.exp(-1 * np.square(time) / (a * a)) * np.exp(-i * k0 * time))
+    return np.array([zipped for zipped in zip(time, amp)], dtype=wavelet_dtype)
+
+
+def wavelet_spectra(dt: float, amp: np.ndarray, df: float = 10) -> spectra_dtype:
+    """Calculate the spectra of the wavelet
+
+    Performs a padded FFT of the wavelet to calculate the various
+    spectral components of the complex signal.
+
+    Args:
+        dt: The wavelet sample interval (s)
+        amp: The wavelet amplitude array
+        df: Desired frequency sample rate Hz
+
+    Returns:
+        Structured array ('freq', 'amp', 'mag', 'phase')
+
+    Notes:
+        DFTs are vulnerable to spectral leakage. This occurs when a non-interger
+        number of periods exist within a signal. Spectral leakage allows a single-tone
+        signal disperse across several frequencies after the DFT operation.
+
+        Zero-padding a signal does not reveal more information about the spectrum, but it only
+        interpolates between the frequency bings that would occur when no zero-padding is
+        applied, i.e. zero-padding does not increase spectral resolution. More measured signal
+        is required for this.
+
+    """
+    assert len(amp.shape) == 1
+    nsamp = amp.size
+
+    # increase the number of samples to get the desired spectral sampling
+    _df = 1 / (nsamp * dt)
+    if df < _df:
+        psamp = nsamp * int(round(_df / df))
+    else:
+        psamp = nsamp
+
+    famp = fftpack.fft(amp, n=psamp)
+    fmag = np.abs(famp)
+    phase = np.arctan2(famp.imag, famp.real)
+    freq = fftpack.fftfreq(psamp, dt)
+
+    psamp2 = psamp // 2
+    return np.array(
+        [
+            zipped
+            for zipped in zip(
+                freq[:psamp2], famp[:psamp2], fmag[:psamp2], phase[:psamp2]
+            )
+        ],
+        dtype=spectra_dtype,
     )
-    return out
 
 
 class Wavelet:
     """A class that encapsulates wavelets in sim2x
 
     Attributes:
-        nsamp
-        dt
-        units
-        df
-        time
-        amp
-        name
-        wtype
+        nsamp: Number of samples
+        dt: Sample rate
+        units: time axis units ("s", "ms")
+        df: Spectral sample rate
+        time: Time array
+        amp: Amp array
+        name: Name or identifier
+        wtype: Wavelet Type
     """
 
     def __init__(
@@ -158,74 +245,84 @@ class Wavelet:
     ):
         """Initialise a wavelet class
 
-        nsamp (int, optional): Defaults to 128.
-            Number of samples in the wavelet
-        dt (float, optional): Defaults to 0.002.
-            Sample rate of the wavelet (seconds)
-        name (str, optional): Defaults to 'etlp_wavelet'.
-            Name or descriptor of the wavelet
-        units (str, optional): Defaults to 's'.
-            The units of the time axis, either s or ms
+        Args:
+            nsamp: Number of samples in the wavelet
+            dt: Sample rate of the wavelet (seconds)
+            name: Name or descriptor of the wavelet
+            units: The units of the time axis, either s or ms
         """
         self.nsamp = nsamp
         self.dt = dt
         self.units = units
-        self.time = np.linspace(-nsamp / 2, nsamp / 2, nsamp + 1) * dt
-        self.amp = np.zeros_like(self.time)
+        self._wavelet = np.zeros((nsamp + 1), dtype=[("time", float), ("amp", float)])
+        self._wavelet["time"] = np.linspace(-nsamp / 2, nsamp / 2, nsamp + 1) * dt
+        self._wavelet["amp"] = np.zeros_like(self.time)
         self.name = name
         self.wtype = None
 
     @property
-    def df(self):
+    def df(self) -> float:
         return 1 / (self.nsamp * self.dt)
 
-    def _spectra(self, df=0.1, positive=True):
-        """Calculate the spectra of the wavelet
+    @property
+    def time(self) -> np.ndarray:
+        return self._wavelet["time"]
 
-        Performs a padded FFT of the wavelet to calculate the various
-        spectral components of the complex signal.
+    @property
+    def amp(self) -> np.ndarray:
+        return self._wavelet["amp"]
+
+    def spectra(self, df: float = 10) -> spectra_dtype:
+        return wavelet_spectra(self.dt, self._wavelet["amp"], df=df)
+
+    def freq(self, df: float = 10) -> np.ndarray:
+        spectra = self.spectra(df)
+        return spectra["freq"]
+
+    def fmag(self, df: float = 10) -> np.ndarray:
+        spectra = self.spectra(df)
+        return spectra["mag"]
+
+    def famp(self, df: float = 10) -> np.ndarray:
+        spectra = self.spectra(df)
+        return spectra["amp"]
+
+    def fphase(self, df: float = 10) -> np.ndarray:
+        spectra = self.spectra(df)
+        return spectra["phase"]
+
+    def set_wavelet(self, time: np.ndarray = None, amp: np.ndarray = None) -> None:
+        """Set the wavelet manually
+
+        `time` and `amp` are 1D arrays with the same size.
 
         Args:
-            df (float, optional): Defaults to 0.1. Desired frequency sample rate Hz
-            positive (bool, optional): Defaults to True. Return only the positive
-                frequency component.
-
-        Attributes:
-            self.famp (array-like): Frequency complex amplitude array.
-            self.freq (array-like): Frequency values of self.famp (Hz)
-            self.fmag (array-like): Magnitude of self.famp
-            self.fpow (array-like): Power of self.famp
-            self.phase (array-like): Phase of the wavelet (rad)
-
-        Notes:
-            DFTs are vulnerable to spectral leakage. This occurs when a non-interger
-            number of periods exist within a signal. Spectral leakage allows a single-tone
-            signal disperse across several frequencies after the DFT operation.
-
-            Zero-padding a signal does not reveal more information about the spectrum, but it only
-            interpolates between the frequency bings that would occur when no zero-padding is
-            applied, i.e. zero-padding does not increase spectral resolution. More measured signal
-            is required for this.
-
+            time: The time array
+            amp: The amplitude array
         """
-        if df < self.df:
-            psamp = self.nsamp * int(round(self.df / df))
+        if amp is None and time is None:
+            raise ValueError("One of `time` or `amp` must be set.")
+        elif amp is None:
+            assert len(time.shape) == 1
+            assert time.size == self.nsamp
+            self._wavelet["time"] = time
+        elif time is None:
+            assert len(amp.shape) == 1
+            assert amp.size == self.nsamp
+            self._wavelet["amp"] = amp
         else:
-            psamp = self.nsamp
-        self.famp = fftpack.fft(self.amp, n=psamp)
-        self.fmag = np.abs(self.famp)
-        self.phase = np.arctan2(self.famp.imag, self.famp.real)
-        self.freq = fftpack.fftfreq(psamp, self.dt)
-        if positive:
-            psamp2 = psamp // 2
-            self.fmag = self.fmag[:psamp2]
-            self.freq = self.freq[:psamp2]
-            self.phase = self.phase[:psamp2]
-        else:
-            self.fmag = fftpack.fftshift(self.fmag)
-            self.freq = fftpack.fftshift(self.freq)
+            assert len(time.shape) == 1 and len(amp.shape) == 1
+            assert time.size == amp.size
+            self.nsamp = time.size
+            self._wavelet["time"] = time
+            self._wavelet["amp"] = amp
 
-    def resample(self, dt):
+    def resample(self, dt: float) -> None:
+        """Resample the wavelet to a new `dt`
+
+        Args:
+            dt: new sample rate
+        """
         time = np.arange(self.time.min(), self.time.max(), dt)
         wave = interp1d(self.time, self.amp, kind="cubic", fill_value="extrapolate")
         amp = wave(time)
@@ -235,7 +332,8 @@ class Wavelet:
         self.nsamp = time.shape[0]
         self._spectra()
 
-    def as_seconds(self):
+    def as_seconds(self) -> None:
+        """Convert time axis to seconds"""
         if self.units == "ms":
             self.time = self.time / 1000.0
             self.dt = self.dt / 1000.0
@@ -245,7 +343,8 @@ class Wavelet:
         else:
             raise ValueError(f"Unknown units of current wavelet {self.units}.")
 
-    def as_miliseconds(self):
+    def as_miliseconds(self) -> None:
+        """Convert time axis to miliseconds"""
         if self.units == "ms":
             pass  # already in seconds
         elif self.units == "s":
@@ -290,17 +389,17 @@ class RickerWavelet(Wavelet):
     ):
         """Initialise a wavelet class
 
-        f: The dominant frequency of the wavelet
-        nsamp: Number of samples in the wavelet
-        dt: Sample rate of the wavelet (seconds)
-        name: Name or descriptor of the wavelet
-        units: The units of the time axis, either s or ms
+        Args:
+            f: The dominant frequency of the wavelet
+            nsamp: Number of samples in the wavelet
+            dt: Sample rate of the wavelet (seconds)
+            name: Name or descriptor of the wavelet
+            units: The units of the time axis, either s or ms
         """
         self.f = f
         super().__init__(nsamp=nsamp, dt=dt, name=name, units=units)
-        out = ricker(self.nsamp, self.dt, f)
-        self.amp = out[("amp")]
-        self._spectra()
+        wave = ricker(self.nsamp, self.dt, f)
+        self.set_wavelet(wave["time"], wave["amp"])
         self.wtype = "ricker"
 
 
@@ -334,10 +433,8 @@ class BandpassWavelet(Wavelet):
         """
         self.fbounds = fbounds
         super().__init__(nsamp=nsamp, dt=dt, name=name, units=units)
-
-        out = bandpass(self.nsamp, self.dt, *fbounds, norm=norm, precision=precision)
-        self.amp = out[("amp")]
-        self._spectra()
+        wave = bandpass(self.nsamp, self.dt, *fbounds, norm=norm, precision=precision)
+        self.set_wavelet(wave["time"], wave["amp"])
         self.wtype = "bandpass"
 
 
@@ -369,10 +466,9 @@ class OrmsbyWavelet(Wavelet):
         """
         self.fbounds = fbounds
         super().__init__(nsamp=nsamp, dt=dt, name=name, units=units)
-        out = ormsby(self.nsamp, self.dt, *fbounds, norm=norm)
-        self.amp = out[("amp")]
-        self._spectra()
-        self.wtype = "bandpass"
+        wave = ormsby(self.nsamp, self.dt, *fbounds, norm=norm)
+        self.set_wavelet(wave["time"], wave["amp"])
+        self.wtype = "ormsby"
 
 
 class PetrelWavelet(Wavelet):
@@ -420,15 +516,15 @@ class PetrelWavelet(Wavelet):
                     pass
 
         super().__init__(name=name, dt=dt, nsamp=len(time), units="s")
-        self.time = np.array(time, dtype=float)
-        self.amp = np.array(amp, dtype=float)
+        time = np.array(time, dtype=float)
+        amp = np.array(amp, dtype=float)
 
         if norm:
-            self.amp = self.amp / np.max(np.abs(self.amp))
+            amp = amp / np.max(np.abs(amp))
 
         # if hflags["WAVELET-TFS"] is not None:
         #     self.time = self.time + float(hflags["WAVELET-TFS"])
-        self.time = self.time / 1000.0
+        time = time / 1000.0
 
-        self._spectra()
+        self.set_wavelet(time, amp)
         self.wtype = "petrel"
