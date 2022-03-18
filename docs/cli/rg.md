@@ -1,16 +1,16 @@
-## `sim2x imp` Config
+## `sim2x rg` Config
 
 ### `IO` section parameters
 
-::: sim2x._cli._sim2imp._Sim2impConfigIO
+::: sim2x._cli._sim2rg._Sim2rgConfigIO
     rendering:
       heading_level: 3
       show_root_heading: false
       show_source: false
 
-### `MODEL` section parameters
+### `SAMPLING` section parameters
 
-::: sim2x._cli._sim2imp._Sim2impConfigModel
+::: sim2x._cli._sim2rg._Sim2rgConfigSampling
     rendering:
       heading_level: 3
       show_root_heading: false

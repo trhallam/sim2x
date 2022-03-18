@@ -80,7 +80,9 @@ nav:
       # - 
       # - "Sim2X seis"
     - "CLI":
-      - "imp": "cli/imp.md"
+      - "Simulation to Impedance": "cli/imp.md"
+      - "Corner Point Grid to Regular Grid": "cli/rg.md"
+      - "Impedance to Seismic": "cli/seis.md"
 
   - "API":
     - "imp": api/imp.md

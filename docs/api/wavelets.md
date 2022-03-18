@@ -55,3 +55,4 @@
         - bandpass
         - ormsby
         - gabor
+        - wavelet_spectra
