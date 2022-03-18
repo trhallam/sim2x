@@ -1,0 +1,110 @@
+
+IO:
+  modelpath: ~
+  regular_grid: ''
+  outpath: ~
+  seisnc_prefix: ~
+  seisnc: true
+  segy: false
+  reports:
+  - 0
+  report_diffs: []
+  earth_model: ~
+  tshift: ~
+  as_depth: true
+  as_twt: false
+
+TWT:
+  twt_alignment: twt_grid
+  twt_grid: ''
+  twt_grid_kind: 1
+  avg_velocity: 3000.0
+  twt_volume: ''
+  zrate: 1
+  vert_buff: 100
+
+WAVELET:
+  wavelet_input: analytic
+  wavelet_type: ricker
+  freq: 30
+  nsamp: 256
+  srate: 1
+  wavelet_file: ''
+  psf: false
+  psf_max_offset:
+  - 4500
+  - 4500
+
+CONVOLUTION:
+  angles:
+    near:
+    - 1
+    - 3
+    - 5
+    - 7
+    - 9
+    mid:
+    - 11
+    - 13
+    - 15
+    - 17
+    - 19
+    far:
+    - 21
+    - 23
+    - 25
+    - 27
+    - 29
+  sum_angles:
+    full:
+    - near
+    - mid
+    - far
+  refl_method: zoeppritz
+  quad: false
+  run: true
+
+EARTHMODEL:
+  ob_vp_fill_method: const
+  ob_vs_fill_method: const
+  ob_den_fill_method: const
+  ub_vp_fill_method: const
+  ub_vs_fill_method: const
+  ub_den_fill_method: const
+  res_vp_fill_method: const
+  res_vs_fill_method: const
+  res_den_fill_method: const
+  vp_ob_const: 3500
+  vp_ob_pem: ~
+  vp_ob_vol: ~
+  vs_ob_const: 3500
+  vs_ob_pem: ~
+  vs_ob_vol: ~
+  vs_ob_ratio: 0.5
+  den_ob_const: 3500
+  den_ob_pem: ~
+  den_ob_vol: ~
+  vp_ub_const: 3500
+  vp_ub_pem: ~
+  vp_ub_vol: ~
+  vs_ub_const: 3500
+  vs_ub_pem: ~
+  vs_ub_vol: ~
+  vs_ub_ratio: 0.5
+  den_ub_const: 3500
+  den_ub_pem: ~
+  den_ub_vol: ~
+  vp_res_const: 3500
+  vp_res_pem: ~
+  vp_res_vol: ~
+  vs_res_const: 3500
+  vs_res_pem: ~
+  vs_res_vol: ~
+  vs_res_ratio: 0.5
+  den_res_const: 3500
+  den_res_pem: ~
+  den_res_vol: ~
+  gaussian_spatial_smoother:
+  - 1
+  - 1
+  - 0.4

@@ -1,0 +1,21 @@
+
+IO:
+  modelpath: ''
+  segypath: ~
+  seisncpath: ~
+  outpath: ''
+  jobs: 1
+
+SAMPLING:
+  sample_rate: 0.1
+  min_x: ~
+  max_x: ~
+  min_y: ~
+  max_y: ~
+  min_iline: ~
+  max_iline: ~
+  min_xline: ~
+  max_xline: ~
+  iline_step: ~
+  xline_step: ~
+  vertical_buffer: ~

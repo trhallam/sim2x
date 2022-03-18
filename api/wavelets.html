@@ -1,0 +1,3414 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Tony Hallam">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.5">
+    
+    
+      
+        <title>Wavelets - Sim2x Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2d9f7617.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sim2xwavelet" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Sim2x Documentation" class="md-header__button md-logo" aria-label="Sim2x Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Sim2x Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Wavelets
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/trhallam/sim2x/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    trhallam/sim2x
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../index.html" class="md-tabs__link">
+        Home
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../ug/framework.html" class="md-tabs__link">
+        User Guide
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="imp.html" class="md-tabs__link md-tabs__link--active">
+        API
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Sim2x Documentation" class="md-nav__button md-logo" aria-label="Sim2x Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Sim2x Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/trhallam/sim2x/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    trhallam/sim2x
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" data-md-state="indeterminate" type="checkbox" id="__nav_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1">
+          Home
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Home" data-md-level="1">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Home
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contrib.html" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contact.html" class="md-nav__link">
+        Contact
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/trhallam/sim2x/issues" class="md-nav__link">
+        Issue Tracker
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" data-md-state="indeterminate" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          User Guide
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ug/framework.html" class="md-nav__link">
+        Sim2x Framework
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" data-md-state="indeterminate" type="checkbox" id="__nav_2_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_2">
+          Examples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Examples" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_2">
+          <span class="md-nav__icon md-icon"></span>
+          Examples
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/example_sim2imp.html" class="md-nav__link">
+        Manual sim2imp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/example_wavelets.html" class="md-nav__link">
+        Wavelets
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_3" data-md-state="indeterminate" type="checkbox" id="__nav_2_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_3">
+          CLI
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="CLI" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_3">
+          <span class="md-nav__icon md-icon"></span>
+          CLI
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/cli_intro.html" class="md-nav__link">
+        CLI Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/imp.html" class="md-nav__link">
+        Simulation to Impedance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/rg.html" class="md-nav__link">
+        Corner Point Grid to Regular Grid
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cli/seis.html" class="md-nav__link">
+        Impedance to Seismic
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          API
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="API" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          API
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="imp.html" class="md-nav__link">
+        imp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="rg.html" class="md-nav__link">
+        rg
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Wavelets
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="wavelets.html" class="md-nav__link md-nav__link--active">
+        Wavelets
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sim2xwavelet" class="md-nav__link">
+    sim2x.Wavelet
+  </a>
+  
+    <nav class="md-nav" aria-label="sim2x.Wavelet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_miliseconds" class="md-nav__link">
+    as_miliseconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_seconds" class="md-nav__link">
+    as_seconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.resample" class="md-nav__link">
+    resample()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.set_wavelet" class="md-nav__link">
+    set_wavelet()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.shift_phase" class="md-nav__link">
+    shift_phase()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sim2xrickerwavelet" class="md-nav__link">
+    sim2x.RickerWavelet
+  </a>
+  
+    <nav class="md-nav" aria-label="sim2x.RickerWavelet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.RickerWavelet.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sim2xbandpasswavelet" class="md-nav__link">
+    sim2x.BandpassWavelet
+  </a>
+  
+    <nav class="md-nav" aria-label="sim2x.BandpassWavelet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_miliseconds" class="md-nav__link">
+    as_miliseconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_seconds" class="md-nav__link">
+    as_seconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.resample" class="md-nav__link">
+    resample()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.set_wavelet" class="md-nav__link">
+    set_wavelet()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.shift_phase" class="md-nav__link">
+    shift_phase()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sim2xormsbywavelet" class="md-nav__link">
+    sim2x.OrmsbyWavelet
+  </a>
+  
+    <nav class="md-nav" aria-label="sim2x.OrmsbyWavelet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_miliseconds" class="md-nav__link">
+    as_miliseconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_seconds" class="md-nav__link">
+    as_seconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.resample" class="md-nav__link">
+    resample()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.set_wavelet" class="md-nav__link">
+    set_wavelet()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.shift_phase" class="md-nav__link">
+    shift_phase()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sim2xpetrelwavelet" class="md-nav__link">
+    sim2x.PetrelWavelet
+  </a>
+  
+    <nav class="md-nav" aria-label="sim2x.PetrelWavelet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_miliseconds" class="md-nav__link">
+    as_miliseconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_seconds" class="md-nav__link">
+    as_seconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.resample" class="md-nav__link">
+    resample()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.set_wavelet" class="md-nav__link">
+    set_wavelet()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.shift_phase" class="md-nav__link">
+    shift_phase()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wavelet-functions" class="md-nav__link">
+    Wavelet Functions
+  </a>
+  
+    <nav class="md-nav" aria-label="Wavelet Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets" class="md-nav__link">
+    sim2x._sim2seis._wavelets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.bandpass" class="md-nav__link">
+    bandpass()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.gabor" class="md-nav__link">
+    gabor()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.ormsby" class="md-nav__link">
+    ormsby()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.ricker" class="md-nav__link">
+    ricker()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.wavelet_spectra" class="md-nav__link">
+    wavelet_spectra()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="seis.html" class="md-nav__link">
+        seis
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#sim2xwavelet" class="md-nav__link">
+    sim2x.Wavelet
+  </a>
+  
+    <nav class="md-nav" aria-label="sim2x.Wavelet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_miliseconds" class="md-nav__link">
+    as_miliseconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_seconds" class="md-nav__link">
+    as_seconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.resample" class="md-nav__link">
+    resample()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.set_wavelet" class="md-nav__link">
+    set_wavelet()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.shift_phase" class="md-nav__link">
+    shift_phase()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sim2xrickerwavelet" class="md-nav__link">
+    sim2x.RickerWavelet
+  </a>
+  
+    <nav class="md-nav" aria-label="sim2x.RickerWavelet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.RickerWavelet.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sim2xbandpasswavelet" class="md-nav__link">
+    sim2x.BandpassWavelet
+  </a>
+  
+    <nav class="md-nav" aria-label="sim2x.BandpassWavelet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_miliseconds" class="md-nav__link">
+    as_miliseconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_seconds" class="md-nav__link">
+    as_seconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.resample" class="md-nav__link">
+    resample()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.set_wavelet" class="md-nav__link">
+    set_wavelet()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.shift_phase" class="md-nav__link">
+    shift_phase()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sim2xormsbywavelet" class="md-nav__link">
+    sim2x.OrmsbyWavelet
+  </a>
+  
+    <nav class="md-nav" aria-label="sim2x.OrmsbyWavelet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_miliseconds" class="md-nav__link">
+    as_miliseconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_seconds" class="md-nav__link">
+    as_seconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.resample" class="md-nav__link">
+    resample()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.set_wavelet" class="md-nav__link">
+    set_wavelet()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.shift_phase" class="md-nav__link">
+    shift_phase()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sim2xpetrelwavelet" class="md-nav__link">
+    sim2x.PetrelWavelet
+  </a>
+  
+    <nav class="md-nav" aria-label="sim2x.PetrelWavelet">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_miliseconds" class="md-nav__link">
+    as_miliseconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.as_seconds" class="md-nav__link">
+    as_seconds()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.resample" class="md-nav__link">
+    resample()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.set_wavelet" class="md-nav__link">
+    set_wavelet()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.Wavelet.shift_phase" class="md-nav__link">
+    shift_phase()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wavelet-functions" class="md-nav__link">
+    Wavelet Functions
+  </a>
+  
+    <nav class="md-nav" aria-label="Wavelet Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets" class="md-nav__link">
+    sim2x._sim2seis._wavelets
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.bandpass" class="md-nav__link">
+    bandpass()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.gabor" class="md-nav__link">
+    gabor()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.ormsby" class="md-nav__link">
+    ormsby()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.ricker" class="md-nav__link">
+    ricker()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sim2x._sim2seis._wavelets.wavelet_spectra" class="md-nav__link">
+    wavelet_spectra()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/trhallam/sim2x/edit/master/docs/api/wavelets.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+  <h1>Wavelets</h1>
+
+<h2 id="sim2xwavelet"><code>sim2x.Wavelet</code></h2>
+
+
+  <div class="doc doc-object doc-class">
+
+
+    <div class="doc doc-contents first">
+
+      <p>A class that encapsulates wavelets in sim2x</p>
+
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td></td>
+        <td><p>Number of samples</p></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td></td>
+        <td><p>Sample rate</p></td>
+      </tr>
+      <tr>
+        <td><code>units</code></td>
+        <td></td>
+        <td><p>time axis units ("s", "ms")</p></td>
+      </tr>
+      <tr>
+        <td><code>df</code></td>
+        <td></td>
+        <td><p>Spectral sample rate</p></td>
+      </tr>
+      <tr>
+        <td><code>time</code></td>
+        <td></td>
+        <td><p>Time array</p></td>
+      </tr>
+      <tr>
+        <td><code>amp</code></td>
+        <td></td>
+        <td><p>Amp array</p></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td></td>
+        <td><p>Name or identifier</p></td>
+      </tr>
+      <tr>
+        <td><code>wtype</code></td>
+        <td></td>
+        <td><p>Wavelet Type</p></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nsamp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialise a wavelet class</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of samples in the wavelet</p></td>
+        <td><code>128</code></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>Sample rate of the wavelet (seconds)</p></td>
+        <td><code>0.002</code></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td><code>Union[NoneType, str]</code></td>
+        <td><p>Name or descriptor of the wavelet</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>units</code></td>
+        <td><code>Literal[&#39;s&#39;, &#39;ms&#39;]</code></td>
+        <td><p>The units of the time axis, either s or ms</p></td>
+        <td><code>&#39;s&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.as_miliseconds" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_miliseconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert time axis to miliseconds</p>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.as_seconds" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert time axis to seconds</p>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.resample" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">resample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Resample the wavelet to a new <code>dt</code></p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>new sample rate</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.set_wavelet" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">set_wavelet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">amp</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Set the wavelet manually</p>
+<p><code>time</code> and <code>amp</code> are 1D arrays with the same size.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>time</code></td>
+        <td><code>ndarray</code></td>
+        <td><p>The time array</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>amp</code></td>
+        <td><code>ndarray</code></td>
+        <td><p>The amplitude array</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.shift_phase" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">shift_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shift</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Rotate the phase of the wavelet.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>shift</code></td>
+        <td><code>float</code></td>
+        <td><p>Phase shift in degrees</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+<h2 id="sim2xrickerwavelet"><code>sim2x.RickerWavelet</code></h2>
+
+
+  <div class="doc doc-object doc-class">
+
+
+    <div class="doc doc-contents first">
+
+
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>f</code></td>
+        <td></td>
+        <td><p>dominant frequency in Hz</p></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.RickerWavelet.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">nsamp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialise a wavelet class</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>f</code></td>
+        <td><code>float</code></td>
+        <td><p>The dominant frequency of the wavelet</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of samples in the wavelet</p></td>
+        <td><code>128</code></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>Sample rate of the wavelet (seconds)</p></td>
+        <td><code>0.002</code></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td><code>Union[NoneType, str]</code></td>
+        <td><p>Name or descriptor of the wavelet</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>units</code></td>
+        <td><code>Literal[&#39;s&#39;, &#39;ms&#39;]</code></td>
+        <td><p>The units of the time axis, either s or ms</p></td>
+        <td><code>&#39;s&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+<h2 id="sim2xbandpasswavelet"><code>sim2x.BandpassWavelet</code></h2>
+
+
+  <div class="doc doc-object doc-class">
+
+
+    <div class="doc doc-contents first">
+
+      <p>A class that encapsulates wavelets in sim2x</p>
+
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td></td>
+        <td><p>Number of samples</p></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td></td>
+        <td><p>Sample rate</p></td>
+      </tr>
+      <tr>
+        <td><code>units</code></td>
+        <td></td>
+        <td><p>time axis units ("s", "ms")</p></td>
+      </tr>
+      <tr>
+        <td><code>df</code></td>
+        <td></td>
+        <td><p>Spectral sample rate</p></td>
+      </tr>
+      <tr>
+        <td><code>time</code></td>
+        <td></td>
+        <td><p>Time array</p></td>
+      </tr>
+      <tr>
+        <td><code>amp</code></td>
+        <td></td>
+        <td><p>Amp array</p></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td></td>
+        <td><p>Name or identifier</p></td>
+      </tr>
+      <tr>
+        <td><code>wtype</code></td>
+        <td></td>
+        <td><p>Wavelet Type</p></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nsamp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialise a wavelet class</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of samples in the wavelet</p></td>
+        <td><code>128</code></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>Sample rate of the wavelet (seconds)</p></td>
+        <td><code>0.002</code></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td><code>Union[NoneType, str]</code></td>
+        <td><p>Name or descriptor of the wavelet</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>units</code></td>
+        <td><code>Literal[&#39;s&#39;, &#39;ms&#39;]</code></td>
+        <td><p>The units of the time axis, either s or ms</p></td>
+        <td><code>&#39;s&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.as_miliseconds" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_miliseconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert time axis to miliseconds</p>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.as_seconds" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert time axis to seconds</p>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.resample" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">resample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Resample the wavelet to a new <code>dt</code></p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>new sample rate</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.set_wavelet" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">set_wavelet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">amp</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Set the wavelet manually</p>
+<p><code>time</code> and <code>amp</code> are 1D arrays with the same size.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>time</code></td>
+        <td><code>ndarray</code></td>
+        <td><p>The time array</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>amp</code></td>
+        <td><code>ndarray</code></td>
+        <td><p>The amplitude array</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.shift_phase" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">shift_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shift</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Rotate the phase of the wavelet.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>shift</code></td>
+        <td><code>float</code></td>
+        <td><p>Phase shift in degrees</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+<h2 id="sim2xormsbywavelet"><code>sim2x.OrmsbyWavelet</code></h2>
+
+
+  <div class="doc doc-object doc-class">
+
+
+    <div class="doc doc-contents first">
+
+      <p>A class that encapsulates wavelets in sim2x</p>
+
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td></td>
+        <td><p>Number of samples</p></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td></td>
+        <td><p>Sample rate</p></td>
+      </tr>
+      <tr>
+        <td><code>units</code></td>
+        <td></td>
+        <td><p>time axis units ("s", "ms")</p></td>
+      </tr>
+      <tr>
+        <td><code>df</code></td>
+        <td></td>
+        <td><p>Spectral sample rate</p></td>
+      </tr>
+      <tr>
+        <td><code>time</code></td>
+        <td></td>
+        <td><p>Time array</p></td>
+      </tr>
+      <tr>
+        <td><code>amp</code></td>
+        <td></td>
+        <td><p>Amp array</p></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td></td>
+        <td><p>Name or identifier</p></td>
+      </tr>
+      <tr>
+        <td><code>wtype</code></td>
+        <td></td>
+        <td><p>Wavelet Type</p></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nsamp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialise a wavelet class</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of samples in the wavelet</p></td>
+        <td><code>128</code></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>Sample rate of the wavelet (seconds)</p></td>
+        <td><code>0.002</code></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td><code>Union[NoneType, str]</code></td>
+        <td><p>Name or descriptor of the wavelet</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>units</code></td>
+        <td><code>Literal[&#39;s&#39;, &#39;ms&#39;]</code></td>
+        <td><p>The units of the time axis, either s or ms</p></td>
+        <td><code>&#39;s&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.as_miliseconds" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_miliseconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert time axis to miliseconds</p>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.as_seconds" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert time axis to seconds</p>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.resample" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">resample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Resample the wavelet to a new <code>dt</code></p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>new sample rate</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.set_wavelet" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">set_wavelet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">amp</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Set the wavelet manually</p>
+<p><code>time</code> and <code>amp</code> are 1D arrays with the same size.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>time</code></td>
+        <td><code>ndarray</code></td>
+        <td><p>The time array</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>amp</code></td>
+        <td><code>ndarray</code></td>
+        <td><p>The amplitude array</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.shift_phase" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">shift_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shift</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Rotate the phase of the wavelet.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>shift</code></td>
+        <td><code>float</code></td>
+        <td><p>Phase shift in degrees</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+<h2 id="sim2xpetrelwavelet"><code>sim2x.PetrelWavelet</code></h2>
+
+
+  <div class="doc doc-object doc-class">
+
+
+    <div class="doc doc-contents first">
+
+      <p>A class that encapsulates wavelets in sim2x</p>
+
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td></td>
+        <td><p>Number of samples</p></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td></td>
+        <td><p>Sample rate</p></td>
+      </tr>
+      <tr>
+        <td><code>units</code></td>
+        <td></td>
+        <td><p>time axis units ("s", "ms")</p></td>
+      </tr>
+      <tr>
+        <td><code>df</code></td>
+        <td></td>
+        <td><p>Spectral sample rate</p></td>
+      </tr>
+      <tr>
+        <td><code>time</code></td>
+        <td></td>
+        <td><p>Time array</p></td>
+      </tr>
+      <tr>
+        <td><code>amp</code></td>
+        <td></td>
+        <td><p>Amp array</p></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td></td>
+        <td><p>Name or identifier</p></td>
+      </tr>
+      <tr>
+        <td><code>wtype</code></td>
+        <td></td>
+        <td><p>Wavelet Type</p></td>
+      </tr>
+  </tbody>
+</table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nsamp</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialise a wavelet class</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of samples in the wavelet</p></td>
+        <td><code>128</code></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>Sample rate of the wavelet (seconds)</p></td>
+        <td><code>0.002</code></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td><code>Union[NoneType, str]</code></td>
+        <td><p>Name or descriptor of the wavelet</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>units</code></td>
+        <td><code>Literal[&#39;s&#39;, &#39;ms&#39;]</code></td>
+        <td><p>The units of the time axis, either s or ms</p></td>
+        <td><code>&#39;s&#39;</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.as_miliseconds" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_miliseconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert time axis to miliseconds</p>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.as_seconds" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_seconds</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Convert time axis to seconds</p>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.resample" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">resample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Resample the wavelet to a new <code>dt</code></p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>new sample rate</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.set_wavelet" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">set_wavelet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">amp</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Set the wavelet manually</p>
+<p><code>time</code> and <code>amp</code> are 1D arrays with the same size.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>time</code></td>
+        <td><code>ndarray</code></td>
+        <td><p>The time array</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>amp</code></td>
+        <td><code>ndarray</code></td>
+        <td><p>The amplitude array</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.Wavelet.shift_phase" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">shift_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shift</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Rotate the phase of the wavelet.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>shift</code></td>
+        <td><code>float</code></td>
+        <td><p>Phase shift in degrees</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+<h2 id="wavelet-functions">Wavelet Functions</h2>
+
+
+  <div class="doc doc-object doc-module">
+
+<a id="sim2x._sim2seis._wavelets"></a>
+    <div class="doc doc-contents first">
+
+      <p>Functions and classes necessary for handling wavelets.</p>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.bandpass" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">bandpass</span><span class="p">(</span><span class="n">nsamp</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">,</span> <span class="n">f4</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Create a bandpass wavelet</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of samples in wavelet</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>Sample rate in seconds</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>f1</code></td>
+        <td><code>float</code></td>
+        <td><p>Lower frequency off</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>f2</code></td>
+        <td><code>float</code></td>
+        <td><p>Lower frequency on</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>f3</code></td>
+        <td><code>float</code></td>
+        <td><p>Upper frequency on</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>f4</code></td>
+        <td><code>float</code></td>
+        <td><p>Upper frequency off</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>norm</code></td>
+        <td><code>bool</code></td>
+        <td><p>Normalise the output</p></td>
+        <td><code>True</code></td>
+      </tr>
+      <tr>
+        <td><code>precision</code></td>
+        <td><code>float</code></td>
+        <td><p>in frequency domain (1/Hz)</p></td>
+        <td><code>0.1</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>[(&#39;time&#39;, &#39;&lt;f8&#39;), (&#39;amp&#39;, &#39;&lt;f8&#39;)]</code></td>
+      <td><p>Structured array of length nsamp+1 tuples ('time', 'amp')</p></td>
+    </tr>
+  </tbody>
+</table>      <div class="admonition notes">
+<p class="admonition-title">Notes</p>
+<p>Bandpass amplitude spectrum.</p>
+<div class="highlight"><span class="filename">Text Only</span><pre><span></span><code>1         f2________f3
+          /          \
+         /            \
+0  _____/              \______
+       f1               f4
+</code></pre></div>
+</div>
+
+        <details class="quote">
+          <summary>Source code in <code>sim2x/_sim2seis/_wavelets.py</code></summary>
+          <div class="highlight"><span class="filename">Python</span><pre><span></span><code><span class="k">def</span> <span class="nf">bandpass</span><span class="p">(</span>
+    <span class="n">nsamp</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">f1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">f2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">f3</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">f4</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">norm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">precision</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">wavelet_dtype</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a bandpass wavelet</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        nsamp: Number of samples in wavelet</span>
+<span class="sd">        dt: Sample rate in seconds</span>
+<span class="sd">        f1: Lower frequency off</span>
+<span class="sd">        f2: Lower frequency on</span>
+<span class="sd">        f3: Upper frequency on</span>
+<span class="sd">        f4: Upper frequency off</span>
+<span class="sd">        norm: Normalise the output</span>
+<span class="sd">        precision: in frequency domain (1/Hz)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Structured array of length nsamp+1 tuples (&#39;time&#39;, &#39;amp&#39;)</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        Bandpass amplitude spectrum.</span>
+
+<span class="sd">        ```</span>
+<span class="sd">        1         f2________f3</span>
+<span class="sd">                  /          \\</span>
+<span class="sd">                 /            \\</span>
+<span class="sd">        0  _____/              \\______</span>
+<span class="sd">               f1               f4</span>
+<span class="sd">        ```</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">zero_phase_time_axis</span><span class="p">(</span><span class="n">nsamp</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="c1"># frequency domain spectrum and filtering</span>
+    <span class="n">precision</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">precision</span><span class="p">)</span>
+    <span class="n">spec_samp</span> <span class="o">=</span> <span class="n">nsamp</span> <span class="o">*</span> <span class="n">precision</span>
+    <span class="n">spec_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">spec_samp</span><span class="p">,</span> <span class="n">spec_samp</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">spec_samp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">spec_freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">spec_samp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">abs_spec_freq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">spec_freq</span><span class="p">)</span>
+    <span class="n">nf</span> <span class="o">=</span> <span class="n">spec_freq</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hnf</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">nf</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">spec_amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">spec_freq</span><span class="p">)</span>
+    <span class="n">blank</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">abs_spec_freq</span> <span class="o">&lt;=</span> <span class="n">f1</span><span class="p">,</span> <span class="n">abs_spec_freq</span> <span class="o">&gt;=</span> <span class="n">f4</span><span class="p">)</span>
+    <span class="n">spec_amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">blank</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">spec_amp</span><span class="p">)</span>
+    <span class="n">rampup</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">abs_spec_freq</span> <span class="o">&gt;</span> <span class="n">f1</span><span class="p">,</span> <span class="n">abs_spec_freq</span> <span class="o">&lt;</span> <span class="n">f2</span><span class="p">)</span>
+    <span class="n">m1</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">f2</span> <span class="o">-</span> <span class="n">f1</span><span class="p">)</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="o">-</span><span class="n">m1</span> <span class="o">*</span> <span class="n">f1</span>
+    <span class="n">spec_amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">rampup</span><span class="p">,</span> <span class="n">m1</span> <span class="o">*</span> <span class="n">abs_spec_freq</span> <span class="o">+</span> <span class="n">c1</span><span class="p">,</span> <span class="n">spec_amp</span><span class="p">)</span>
+    <span class="n">rampdown</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">abs_spec_freq</span> <span class="o">&gt;</span> <span class="n">f3</span><span class="p">,</span> <span class="n">abs_spec_freq</span> <span class="o">&lt;</span> <span class="n">f4</span><span class="p">)</span>
+    <span class="n">m2</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">f3</span> <span class="o">-</span> <span class="n">f4</span><span class="p">)</span>
+    <span class="n">c2</span> <span class="o">=</span> <span class="o">-</span><span class="n">m2</span> <span class="o">*</span> <span class="n">f4</span>
+    <span class="n">spec_amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">rampdown</span><span class="p">,</span> <span class="n">m2</span> <span class="o">*</span> <span class="n">abs_spec_freq</span> <span class="o">+</span> <span class="n">c2</span><span class="p">,</span> <span class="n">spec_amp</span><span class="p">)</span>
+    <span class="c1"># inverse fft and unwrap</span>
+    <span class="n">time_amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">spec_amp</span><span class="p">)</span>
+    <span class="n">time_amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">time_amp</span><span class="p">[</span><span class="n">hnf</span><span class="p">:],</span> <span class="n">time_amp</span><span class="p">[:</span><span class="n">hnf</span><span class="p">]]</span>
+    <span class="c1"># interpolation to out</span>
+    <span class="n">amp_func</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">spec_time</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">time_amp</span><span class="o">.</span><span class="n">real</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">)</span>
+    <span class="n">amp</span> <span class="o">=</span> <span class="n">amp_func</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">norm</span><span class="p">:</span>
+        <span class="n">amp</span> <span class="o">=</span> <span class="n">amp</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">zipped</span> <span class="k">for</span> <span class="n">zipped</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">amp</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wavelet_dtype</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.gabor" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">gabor</span><span class="p">(</span><span class="n">nsamp</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">k0</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Gabor wavelet - Gausian modulated by an exponential</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of samples in the wavelet</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>Sample rate of the wavelet (s)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>a</code></td>
+        <td><code>float</code></td>
+        <td><p>rate of exponential attenuation away from t=0</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>k0</code></td>
+        <td><code>float</code></td>
+        <td><p>rate of modulation</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>[(&#39;time&#39;, &#39;&lt;f8&#39;), (&#39;amp&#39;, &#39;&lt;f8&#39;)]</code></td>
+      <td><p>Structured array of length nsamp+1 tuples ('time', 'amp')</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>sim2x/_sim2seis/_wavelets.py</code></summary>
+          <div class="highlight"><span class="filename">Python</span><pre><span></span><code><span class="k">def</span> <span class="nf">gabor</span><span class="p">(</span><span class="n">nsamp</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">k0</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">wavelet_dtype</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Gabor wavelet - Gausian modulated by an exponential</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        nsamp: Number of samples in the wavelet</span>
+<span class="sd">        dt: Sample rate of the wavelet (s)</span>
+<span class="sd">        a: rate of exponential attenuation away from t=0</span>
+<span class="sd">        k0: rate of modulation</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Structured array of length nsamp+1 tuples (&#39;time&#39;, &#39;amp&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">zero_phase_time_axis</span><span class="p">(</span><span class="n">nsamp</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">amp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">i</span> <span class="o">*</span> <span class="n">k0</span> <span class="o">*</span> <span class="n">time</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">zipped</span> <span class="k">for</span> <span class="n">zipped</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">amp</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wavelet_dtype</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.ormsby" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">ormsby</span><span class="p">(</span><span class="n">nsamp</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">,</span> <span class="n">f4</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Create an Ormsby filtered wavelet</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of samples in wavelet</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>Sample rate in (s)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>f1</code></td>
+        <td><code>float</code></td>
+        <td><p>Low frequency cut off (Hz)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>f2</code></td>
+        <td><code>float</code></td>
+        <td><p>Low frequency pass (Hz)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>f3</code></td>
+        <td><code>float</code></td>
+        <td><p>High frequency pass (Hz)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>f4</code></td>
+        <td><code>float</code></td>
+        <td><p>High freuency cut off (Hz)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>norm</code></td>
+        <td><code>bool</code></td>
+        <td><p>Normalise the wavelet</p></td>
+        <td><code>True</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>[(&#39;time&#39;, &#39;&lt;f8&#39;), (&#39;amp&#39;, &#39;&lt;f8&#39;)]</code></td>
+      <td><p>Structured array of length nsamp+1 tuples ('time', 'amp')</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>sim2x/_sim2seis/_wavelets.py</code></summary>
+          <div class="highlight"><span class="filename">Python</span><pre><span></span><code><span class="k">def</span> <span class="nf">ormsby</span><span class="p">(</span>
+    <span class="n">nsamp</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">f1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">f2</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">f3</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">f4</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">norm</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">wavelet_dtype</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create an Ormsby filtered wavelet</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        nsamp: Number of samples in wavelet</span>
+<span class="sd">        dt: Sample rate in (s)</span>
+<span class="sd">        f1: Low frequency cut off (Hz)</span>
+<span class="sd">        f2: Low frequency pass (Hz)</span>
+<span class="sd">        f3: High frequency pass (Hz)</span>
+<span class="sd">        f4: High freuency cut off (Hz)</span>
+<span class="sd">        norm: Normalise the wavelet</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Structured array of length nsamp+1 tuples (&#39;time&#39;, &#39;amp&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">zero_phase_time_axis</span><span class="p">(</span><span class="n">nsamp</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f4</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f4</span> <span class="o">-</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">f3</span><span class="p">)</span>
+    <span class="n">c2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f4</span> <span class="o">-</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">f3</span><span class="p">)</span>
+    <span class="n">c3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f2</span> <span class="o">-</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">f1</span><span class="p">)</span>
+    <span class="n">c4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f2</span> <span class="o">-</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">f1</span><span class="p">)</span>
+
+    <span class="n">amp</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">c1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sinc</span><span class="p">(</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f4</span> <span class="o">*</span> <span class="n">time</span><span class="p">))</span>
+        <span class="o">-</span> <span class="n">c2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sinc</span><span class="p">(</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f3</span> <span class="o">*</span> <span class="n">time</span><span class="p">))</span>
+        <span class="o">-</span> <span class="n">c3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sinc</span><span class="p">(</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f2</span> <span class="o">*</span> <span class="n">time</span><span class="p">))</span>
+        <span class="o">+</span> <span class="n">c4</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sinc</span><span class="p">(</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f1</span> <span class="o">*</span> <span class="n">time</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">norm</span><span class="p">:</span>
+        <span class="n">amp</span> <span class="o">=</span> <span class="n">amp</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">amp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">zipped</span> <span class="k">for</span> <span class="n">zipped</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">amp</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wavelet_dtype</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.ricker" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">ricker</span><span class="p">(</span><span class="n">nsamp</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Create a Ricker Wavelet</p>
+<p>Create an analytical Ricker wavelet with a dominant frequency of <code>f</code>.
+Length in samples, <code>dt</code> im mSec, <code>f</code> in Hertz</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>nsamp</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of samples in wavelet</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>Sample rate in (s)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>f</code></td>
+        <td><code>float</code></td>
+        <td><p>Dominant Frequency of the wavelet in Hz</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>[(&#39;time&#39;, &#39;&lt;f8&#39;), (&#39;amp&#39;, &#39;&lt;f8&#39;)]</code></td>
+      <td><p>Structured array of length nsamp+1 tuples ('time', 'amp')</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>sim2x/_sim2seis/_wavelets.py</code></summary>
+          <div class="highlight"><span class="filename">Python</span><pre><span></span><code><span class="k">def</span> <span class="nf">ricker</span><span class="p">(</span><span class="n">nsamp</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">wavelet_dtype</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Create a Ricker Wavelet</span>
+
+<span class="sd">    Create an analytical Ricker wavelet with a dominant frequency of `f`.</span>
+<span class="sd">    Length in samples, `dt` im mSec, `f` in Hertz</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        nsamp: Number of samples in wavelet</span>
+<span class="sd">        dt: Sample rate in (s)</span>
+<span class="sd">        f: Dominant Frequency of the wavelet in Hz</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Structured array of length nsamp+1 tuples (&#39;time&#39;, &#39;amp&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">zero_phase_time_axis</span><span class="p">(</span><span class="n">nsamp</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">amp</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="n">time</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="n">time</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">zipped</span> <span class="k">for</span> <span class="n">zipped</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">amp</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">wavelet_dtype</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h3 id="sim2x._sim2seis._wavelets.wavelet_spectra" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">wavelet_spectra</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Calculate the spectra of the wavelet</p>
+<p>Performs a padded FFT of the wavelet to calculate the various
+spectral components of the complex signal.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>dt</code></td>
+        <td><code>float</code></td>
+        <td><p>The wavelet sample interval (s)</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>amp</code></td>
+        <td><code>ndarray</code></td>
+        <td><p>The wavelet amplitude array</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>df</code></td>
+        <td><code>float</code></td>
+        <td><p>Desired frequency sample rate Hz</p></td>
+        <td><code>10</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>[(&#39;freq&#39;, &#39;&lt;f8&#39;), (&#39;amp&#39;, &#39;&lt;c8&#39;), (&#39;mag&#39;, &#39;&lt;f8&#39;), (&#39;phase&#39;, &#39;&lt;f8&#39;)]</code></td>
+      <td><p>Structured array ('freq', 'amp', 'mag', 'phase')</p></td>
+    </tr>
+  </tbody>
+</table>      <div class="admonition notes">
+<p class="admonition-title">Notes</p>
+<p>DFTs are vulnerable to spectral leakage. This occurs when a non-interger
+number of periods exist within a signal. Spectral leakage allows a single-tone
+signal disperse across several frequencies after the DFT operation.</p>
+<p>Zero-padding a signal does not reveal more information about the spectrum, but it only
+interpolates between the frequency bings that would occur when no zero-padding is
+applied, i.e. zero-padding does not increase spectral resolution. More measured signal
+is required for this.</p>
+</div>
+
+        <details class="quote">
+          <summary>Source code in <code>sim2x/_sim2seis/_wavelets.py</code></summary>
+          <div class="highlight"><span class="filename">Python</span><pre><span></span><code><span class="k">def</span> <span class="nf">wavelet_spectra</span><span class="p">(</span><span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">amp</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">spectra_dtype</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Calculate the spectra of the wavelet</span>
+
+<span class="sd">    Performs a padded FFT of the wavelet to calculate the various</span>
+<span class="sd">    spectral components of the complex signal.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dt: The wavelet sample interval (s)</span>
+<span class="sd">        amp: The wavelet amplitude array</span>
+<span class="sd">        df: Desired frequency sample rate Hz</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Structured array (&#39;freq&#39;, &#39;amp&#39;, &#39;mag&#39;, &#39;phase&#39;)</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        DFTs are vulnerable to spectral leakage. This occurs when a non-interger</span>
+<span class="sd">        number of periods exist within a signal. Spectral leakage allows a single-tone</span>
+<span class="sd">        signal disperse across several frequencies after the DFT operation.</span>
+
+<span class="sd">        Zero-padding a signal does not reveal more information about the spectrum, but it only</span>
+<span class="sd">        interpolates between the frequency bings that would occur when no zero-padding is</span>
+<span class="sd">        applied, i.e. zero-padding does not increase spectral resolution. More measured signal</span>
+<span class="sd">        is required for this.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">amp</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="n">nsamp</span> <span class="o">=</span> <span class="n">amp</span><span class="o">.</span><span class="n">size</span>
+
+    <span class="c1"># increase the number of samples to get the desired spectral sampling</span>
+    <span class="n">_df</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">nsamp</span> <span class="o">*</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">df</span> <span class="o">&lt;</span> <span class="n">_df</span><span class="p">:</span>
+        <span class="n">psamp</span> <span class="o">=</span> <span class="n">nsamp</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">_df</span> <span class="o">/</span> <span class="n">df</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">psamp</span> <span class="o">=</span> <span class="n">nsamp</span>
+
+    <span class="n">famp</span> <span class="o">=</span> <span class="n">fftpack</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">amp</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">psamp</span><span class="p">)</span>
+    <span class="n">fmag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">famp</span><span class="p">)</span>
+    <span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">famp</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">famp</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+    <span class="n">freq</span> <span class="o">=</span> <span class="n">fftpack</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="n">psamp</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+    <span class="n">psamp2</span> <span class="o">=</span> <span class="n">psamp</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">zipped</span>
+            <span class="k">for</span> <span class="n">zipped</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+                <span class="n">freq</span><span class="p">[:</span><span class="n">psamp2</span><span class="p">],</span> <span class="n">famp</span><span class="p">[:</span><span class="n">psamp2</span><span class="p">],</span> <span class="n">fmag</span><span class="p">[:</span><span class="n">psamp2</span><span class="p">],</span> <span class="n">phase</span><span class="p">[:</span><span class="n">psamp2</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">],</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">spectra_dtype</span><span class="p">,</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="rg.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: rg" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              rg
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="seis.html" class="md-footer__link md-footer__link--next" aria-label="Next: seis" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              seis
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Tony Hallam
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigations.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.467223ff.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

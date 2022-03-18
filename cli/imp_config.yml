@@ -1,0 +1,15 @@
+
+IO:
+  modelpath: ''
+  outpath: ~
+  reports:
+  - 0
+  report_diffs: []
+  report_diffs_pc: []
+
+MODEL:
+  pem_file: ''
+  pem_name: ''
+  nan_cell: ~
+  property_mapping: ~
+  extra_props: ~
