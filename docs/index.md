@@ -1,32 +1,14 @@
-# `digirock`
+# Sim2x
 
-`digirock` is a Python framework for modelling digital rock models. It uses four
-abstract building blocks `Element`s, `Blend`ers, `Transform`ers and `Switch`es
- to build flexible and moduluar rock models, all on top of the Python scientific
- stack to make things easy (`numpy`, `xarray` and `pandas`).
+`sim2x` is a Python framework for forward modelling reservoir simulation models. The forward workflow involves
+three main processes, converting the simulation to impedance (`imp`), converting the simulation corner point grid to a regular grid (`rg`), and convolving a wavelet with a reflectivity model to generate synthetic seismic (`seis`).
 
-- The [`Element`](api/base_classes.md#digirockelement) class is the fundamental building block, all
-   other classes a based on it and it provides most of the functionality. Element
-   classes are extended to have rock or fluid properties or indeed any other property
-   you want to model.
-- The [`Blend`](api/base_classes.md#digirockblend) class is used to combine any of the building block classes
-   in different ways
-   the blending method is implemented within a new class. Examples of a blend method
-   include a Wood's Fluid or Voight-Reuss-Hill average for a mineral composite.
-- The [`Transform`](api/base_classes.md#digirocktransform) class is a pipeline that takes one of the
-  building block classes and performs an operation on either the upgoing or downgoing
-  properties of the rock. This is useful for transforming inputs or performing adjustments
-  to lower level block outputs. For example, Nur's Critical porosity transform is a
-  transformer.
-- The [`Switch`](api/base_classes.md#digirockswitch) class is used when you zones or regions in your data
-  that use completely different models. The switch class for example can be used apply
-  the correct fluid in different PVT Zones, or a different Rock model per facies zone.
+`sim2x` builds upon the `eclx` and `digirock` libraries.
 
-`digirock` has primarily been implemented for clastic petro-elastic modelling but the
-framework is flexible enough for users to implement there own Elements and Models
-following the guidelines and examples from withing this documentation. If you write a
-new model, or implement an old one, please considering submitting back to the `digirock`
-project ([contributing](contrib.md)).
+ - `eclx` is used for extracting simulation model data from Eclipse style output files.
+ - `digirock` is used for the forward digital rock model.
+
+If you write want to add to or extend `sim2x` please look at the project [contribution](contrib.md) guidelines.
 
 ## Quick Start
 
@@ -36,10 +18,10 @@ See the quick start example in the user guide.
 
 ### Installing with `pip`
 
-`digirock` is available via `pip install`.
+`sim2x` is available via `pip install`.
 
 ```
-pip install digirock
+pip install sim2x
 ```
 
 ### Installing from source
@@ -47,12 +29,12 @@ pip install digirock
 Clone the repository
 
 ```
-git clone http://github.com/trhallam/digirock
+git clone http://github.com/trhallam/sim2x
 ```
 
 and install using `pip`
 
 ```
-cd digirock
+cd sim2x
 pip install .
 ```

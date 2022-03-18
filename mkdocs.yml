@@ -1,6 +1,7 @@
 site_name: Sim2x Documentation
 site_author: Tony Hallam
 docs_dir: docs
+site_dir: site
 theme:
   name: material
   language: "en"
@@ -53,15 +54,22 @@ extra_javascript:
 
 plugins:
   - search
-  - simple
+  - simple:
+      # build_docs_dir: docs_build
   - autorefs
   - mkdocs-jupyter:
-      execute: false
+      execute: true
       kernel_name: python3
   - mkdocstrings:
       default_handler: python
       watch:
         - src/sim2x
+        - scripts
+  - include-markdown
+  - gen-files:
+      scripts:
+        - scripts/gen_configs.py
+
 
 nav:
   - "Home":
@@ -73,13 +81,14 @@ nav:
   - "User Guide":
     - "Sim2x Framework": "ug/framework.md"
     - "Examples":
-      - "Sim2x imp": examples/sim2imp.py
+      - "Sim2x imp": examples/example_sim2imp.py
       # - "Sim2X rg":
-      # - "Wavelets":
+      - "Wavelets": examples/example_wavelets.py
       # - "PSF":
       # - 
       # - "Sim2X seis"
     - "CLI":
+      - "CLI Introduction": "cli/cli_intro.md"
       - "Simulation to Impedance": "cli/imp.md"
       - "Corner Point Grid to Regular Grid": "cli/rg.md"
       - "Impedance to Seismic": "cli/seis.md"
