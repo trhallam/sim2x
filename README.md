@@ -24,7 +24,8 @@
     </a>
 </p>
 
-A set of classes for making flexible digital rock models.
+A set of methods and tools for transforming reservoir flow simulation models, well logs and other things into the impedance
+and seismic amplitude domain.
 
 ## Installation
 

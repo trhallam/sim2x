@@ -165,6 +165,7 @@ def imp(ctx, config_file):
         )
     except Exception as err:
         logger.debug(err)
+        logger.debug(f"Sim has reports {sim.loaded_reports}")
         logger.error("The simulation to impedance process failed")
         raise SystemExit
 
