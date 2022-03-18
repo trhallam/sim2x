@@ -3,8 +3,9 @@
 `sim2x` is a Python framework for forward modelling reservoir simulation models. The forward workflow involves
 three main processes, converting the simulation to impedance (`imp`), converting the simulation corner point grid to a regular grid (`rg`), and convolving a wavelet with a reflectivity model to generate synthetic seismic (`seis`).
 
-`sim2x` builds upon the `eclx` and `digirock` libraries.
+`sim2x` builds upon the `segysak`, `eclx` and `digirock` libraries.
 
+ - `segysak` is used for building regular grids and loading and exporting data from SEGY
  - `eclx` is used for extracting simulation model data from Eclipse style output files.
  - `digirock` is used for the forward digital rock model.
 
