@@ -129,7 +129,6 @@ def extract_xy_gilog(
     """
     localised_df_mask = filter_index_xyzcorn2loc(xyzcorn_df, xloc, yloc)
     localised_df = xyzcorn_df[localised_df_mask]
-
     if localised_df.empty:
         raise ValueError("The point(xloc, yloc) does not intersect any cells")
 
@@ -209,10 +208,11 @@ def cpgrid_to_rg(
             minmax_active[4] // 1 - buffer, minmax_active[5] // 1 + buffer, srate
         )
         template = volume.copy()
-        template = template.expand_dims({depth_dim_name: zloc})
+        template[depth_dim_name] = ((depth_dim_name,), zloc)
     else:
         template = volume
         depth_dim_name = depth_dim
+        zloc = template[depth_dim_name].values
 
     template["gi"] = (
         tuple(key for key in template.dims),
@@ -252,7 +252,6 @@ def cpgrid_to_rg(
             xyzcorn_df, ds[xkey].values, ds[ykey].values
         )
         block_localised_df = xyzcorn_df[block_localised_df_mask]
-
         preserve_dim_order = tuple(key for key in ds.dims)
         stack = ds.stack({"trace": mapping_dims})
         givol = (
