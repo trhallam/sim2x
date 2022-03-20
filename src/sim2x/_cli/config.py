@@ -6,12 +6,11 @@ from pydantic_yaml import YamlModel
 
 
 class Sim2Config(YamlModel):
-
     class Config:
         default_files = ["test.yml"]
         extra = "allow"
 
-    def yaml_desc(self) -> str:
+    def yaml_desc(self, header=True, comments=True) -> str:
         """
         Dumps initial config in YAML but keeps class and Field descriptions as comments.
         """
@@ -28,7 +27,7 @@ class Sim2Config(YamlModel):
         dict_from_yaml = yaml.load(yaml_str)
 
         def yaml_model_printer(yaml_dict, parent):
-            if parent.__doc__:
+            if parent.__doc__ and header:
                 yaml_dict.yaml_set_start_comment(parent.__doc__ + "\n")
 
             for k in yaml_dict.keys():
@@ -36,7 +35,7 @@ class Sim2Config(YamlModel):
                 if isinstance(key_val, BaseModel):
                     yaml_dict.yaml_set_comment_before_after_key(k, before="\n")
                     yaml_model_printer(yaml_dict[k], key_val)
-                elif parent.__fields__[k].field_info.description:
+                elif parent.__fields__[k].field_info.description and comments:
                     yaml_dict.yaml_set_comment_before_after_key(
                         k, before=parent.__fields__[k].field_info.description
                     )

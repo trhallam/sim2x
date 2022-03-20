@@ -18,7 +18,7 @@
 # %autoreload 2
 
 # %% [markdown]
-# # Switches
+# # Manual `sim2imp`
 
 # %%
 from sim2x import sim2imp

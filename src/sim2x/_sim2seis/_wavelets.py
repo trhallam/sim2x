@@ -1,7 +1,8 @@
 """Functions and classes necessary for handling wavelets.
 """
-from typing import Literal, Union, Tuple
+from typing import Literal, Union, Tuple, Any
 import numpy as np
+import numpy.typing as npt
 import xarray as xr
 
 from scipy import fftpack
@@ -14,10 +15,12 @@ from ..typing import Pathlike
 spectra_dtype = np.dtype(
     [("freq", "f8"), ("amp", "c8"), ("mag", "f8"), ("phase", "f8")]
 )
+SpectraDtype = npt.NDArray[spectra_dtype]
 wavelet_dtype = np.dtype([("time", "f8"), ("amp", "f8")])
+WaveletDtype = npt.NDArray[wavelet_dtype]
 
 
-def zero_phase_time_axis(nsamp: int, dt: float) -> np.ndarray:
+def zero_phase_time_axis(nsamp: int, dt: float) -> npt.NDArray[np.float_]:
     """Create a zero phase symetrical time axis with `nsamp`
 
     Args:
@@ -30,7 +33,7 @@ def zero_phase_time_axis(nsamp: int, dt: float) -> np.ndarray:
     return np.linspace(-nsamp / 2, nsamp / 2, nsamp + 1, dtype=float) * dt
 
 
-def ricker(nsamp: int, dt: float, f: float) -> wavelet_dtype:
+def ricker(nsamp: int, dt: float, f: float) -> WaveletDtype:
     """Create a Ricker Wavelet
 
     Create an analytical Ricker wavelet with a dominant frequency of `f`.
@@ -51,7 +54,7 @@ def ricker(nsamp: int, dt: float, f: float) -> wavelet_dtype:
 
 def ormsby(
     nsamp: int, dt: float, f1: float, f2: float, f3: float, f4: float, norm: bool = True
-) -> wavelet_dtype:
+) -> WaveletDtype:
     """Create an Ormsby filtered wavelet
 
     Args:
@@ -93,7 +96,7 @@ def bandpass(
     f4: float,
     norm: bool = True,
     precision: float = 0.1,
-) -> wavelet_dtype:
+) -> WaveletDtype:
     """Create a bandpass wavelet
 
     Args:
@@ -152,7 +155,7 @@ def bandpass(
     return np.array([zipped for zipped in zip(time, amp)], dtype=wavelet_dtype)
 
 
-def gabor(nsamp: int, dt: float, a: float, k0: float) -> wavelet_dtype:
+def gabor(nsamp: int, dt: float, a: float, k0: float) -> WaveletDtype:
     """Gabor wavelet - Gausian modulated by an exponential
 
     Args:
@@ -165,16 +168,21 @@ def gabor(nsamp: int, dt: float, a: float, k0: float) -> wavelet_dtype:
         Structured array of length nsamp+1 tuples ('time', 'amp')
     """
     time = zero_phase_time_axis(nsamp, dt)
-    i = np.complex(0, 1)
+    i = complex(0, 1)
     amp = np.real(np.exp(-1 * np.square(time) / (a * a)) * np.exp(-i * k0 * time))
     return np.array([zipped for zipped in zip(time, amp)], dtype=wavelet_dtype)
 
 
-def wavelet_spectra(dt: float, amp: np.ndarray, df: float = 10) -> spectra_dtype:
+def wavelet_spectra(dt: float, amp: npt.NDArray[Any], df: float = 10) -> SpectraDtype:
     """Calculate the spectra of the wavelet
 
     Performs a padded FFT of the wavelet to calculate the various
     spectral components of the complex signal.
+
+      - `freq`: Frequency (Hz) at which the spectra has been evaluated
+      - `amp`: The complex amplitude after the forwart FFT
+      - `mag`: `np.abs(amp)` - magnitude of `amp`
+      - `phase`: Phase angle of the complex amplitude signal
 
     Args:
         dt: The wavelet sample interval (s)
@@ -190,7 +198,7 @@ def wavelet_spectra(dt: float, amp: np.ndarray, df: float = 10) -> spectra_dtype
         signal disperse across several frequencies after the DFT operation.
 
         Zero-padding a signal does not reveal more information about the spectrum, but it only
-        interpolates between the frequency bings that would occur when no zero-padding is
+        interpolates between the frequency bins that would occur when no zero-padding is
         applied, i.e. zero-padding does not increase spectral resolution. More measured signal
         is required for this.
 
@@ -205,19 +213,14 @@ def wavelet_spectra(dt: float, amp: np.ndarray, df: float = 10) -> spectra_dtype
     else:
         psamp = nsamp
 
-    famp = fftpack.fft(amp, n=psamp)
+    famp = fftpack.fftshift(fftpack.fft(amp, n=psamp))
+    freq = fftpack.fftshift(fftpack.fftfreq(psamp, dt))
     fmag = np.abs(famp)
-    phase = np.arctan2(famp.imag, famp.real)
-    freq = fftpack.fftfreq(psamp, dt)
+    phase = np.angle(famp)
+    phase[fmag < 1] = 0
 
-    psamp2 = psamp // 2
     return np.array(
-        [
-            zipped
-            for zipped in zip(
-                freq[:psamp2], famp[:psamp2], fmag[:psamp2], phase[:psamp2]
-            )
-        ],
+        [zipped for zipped in zip(freq, famp, fmag, phase)],
         dtype=spectra_dtype,
     )
 
@@ -240,6 +243,8 @@ class Wavelet:
         self,
         nsamp: int = 128,
         dt: float = 0.002,
+        df: float = 10,
+        positive_spectra: bool = True,
         name: Union[None, str] = None,
         units: Literal["s", "ms"] = "s",
     ):
@@ -248,6 +253,8 @@ class Wavelet:
         Args:
             nsamp: Number of samples in the wavelet
             dt: Sample rate of the wavelet (seconds)
+            df: The sample rate in the frequency domain
+            positive_spectra: Return only the positive portion of the frequency spectrum
             name: Name or descriptor of the wavelet
             units: The units of the time axis, either s or ms
         """
@@ -259,39 +266,64 @@ class Wavelet:
         self._wavelet["amp"] = np.zeros_like(self.time)
         self.name = name
         self.wtype = None
+        self._update_spectra(df, positive_spectra)
+
+    def _update_spectra(self, df: float, positive_spectra: bool) -> None:
+        # Update the internal frequency spectra
+        if self.units == "ms":
+            dt = self.dt / 1000
+        else:
+            dt = self.dt
+
+        self._df = df
+        self._positive_spectra = positive_spectra
+        self._spectra = wavelet_spectra(dt, self._wavelet["amp"], df=self._df)
+        if positive_spectra:
+            psamp2 = self._spectra.size // 2
+            self._spectra = self._spectra[psamp2:]
 
     @property
     def df(self) -> float:
         return 1 / (self.nsamp * self.dt)
 
     @property
-    def time(self) -> np.ndarray:
+    def time(self) -> npt.NDArray[np.float_]:
         return self._wavelet["time"]
 
     @property
-    def amp(self) -> np.ndarray:
+    def amp(self) -> npt.NDArray[np.float_]:
         return self._wavelet["amp"]
 
-    def spectra(self, df: float = 10) -> spectra_dtype:
-        return wavelet_spectra(self.dt, self._wavelet["amp"], df=df)
+    @property
+    def spectra(self) -> SpectraDtype:
+        """the wavelet spectra"""
+        return self._spectra
 
-    def freq(self, df: float = 10) -> np.ndarray:
-        spectra = self.spectra(df)
-        return spectra["freq"]
+    @property
+    def freq(self) -> npt.NDArray[np.float_]:
+        """the spectra frequency"""
+        return self._spectra["freq"]
 
-    def fmag(self, df: float = 10) -> np.ndarray:
-        spectra = self.spectra(df)
-        return spectra["mag"]
+    @property
+    def fmag(self, df: float = 10) -> npt.NDArray[np.float_]:
+        """the spectra magnitude"""
+        return self._spectra["mag"]
 
-    def famp(self, df: float = 10) -> np.ndarray:
-        spectra = self.spectra(df)
-        return spectra["amp"]
+    @property
+    def famp(self, df: float = 10) -> npt.NDArray[np.complex_]:
+        """the spectra amplitude"""
+        return self._spectra["amp"]
 
-    def fphase(self, df: float = 10) -> np.ndarray:
-        spectra = self.spectra(df)
-        return spectra["phase"]
+    @property
+    def fphase(self, df: float = 10) -> npt.NDArray[np.float_]:
+        """the spectra phase"""
+        return self._spectra["phase"]
 
-    def set_wavelet(self, time: np.ndarray = None, amp: np.ndarray = None) -> None:
+    def set_wavelet(
+        self,
+        time: Union[None, npt.NDArray[np.float_]] = None,
+        amp: Union[None, npt.NDArray[np.float_]] = None,
+    ) -> None:
         """Set the wavelet manually
 
         `time` and `amp` are 1D arrays with the same size.
@@ -314,8 +346,10 @@ class Wavelet:
             assert len(time.shape) == 1 and len(amp.shape) == 1
             assert time.size == amp.size
             self.nsamp = time.size
-            self._wavelet["time"] = time
-            self._wavelet["amp"] = amp
+            self._wavelet = np.array(
+                [zipped for zipped in zip(time, amp)], dtype=wavelet_dtype
+            )
+        self._update_spectra(self._df, self._positive_spectra)
 
     def resample(self, dt: float) -> None:
         """Resample the wavelet to a new `dt`
@@ -326,16 +360,13 @@ class Wavelet:
         time = np.arange(self.time.min(), self.time.max(), dt)
         wave = interp1d(self.time, self.amp, kind="cubic", fill_value="extrapolate")
         amp = wave(time)
-        self.time = time
-        self.amp = amp
         self.dt = dt
-        self.nsamp = time.shape[0]
-        self._spectra()
+        self.set_wavelet(time, amp)
 
     def as_seconds(self) -> None:
         """Convert time axis to seconds"""
         if self.units == "ms":
-            self.time = self.time / 1000.0
+            self._wavelet["time"] = self.time / 1000.0
             self.dt = self.dt / 1000.0
             self.units = "s"
         elif self.units == "s":
@@ -343,12 +374,12 @@ class Wavelet:
         else:
             raise ValueError(f"Unknown units of current wavelet {self.units}.")
 
-    def as_miliseconds(self) -> None:
-        """Convert time axis to miliseconds"""
+    def as_milliseconds(self) -> None:
+        """Convert time axis to milliseconds"""
         if self.units == "ms":
             pass  # already in seconds
         elif self.units == "s":
-            self.time = self.time * 1000.0
+            self._wavelet["time"] = self.time * 1000.0
             self.dt = self.dt * 1000.0
             self.units = "ms"
         else:
@@ -367,37 +398,32 @@ class Wavelet:
         shift = np.radians(sign * (shift % 360))
 
         ht = hilbert(self.amp)
-        self.amp = ht.real * np.cos(shift) - ht.imag * np.sin(shift)
-        self.amp = self.amp.real
-        self._spectra()
+        amp = ht.real * np.cos(shift) - ht.imag * np.sin(shift)
+        self.set_wavelet(amp=amp.real)
 
 
 class RickerWavelet(Wavelet):
-    """
+    """Ricker wavelet class
+
+    Extends the base [`Wavelet`][sim2xwavelet] class.
+
     Attributes:
-        As for [`Wavelet`][sim2x.Wavelet]
-        f: dominant frequency in Hz
+        f (float): dominant frequency in Hz
     """
 
     def __init__(
         self,
         f: float,
-        nsamp: int = 128,
-        dt: float = 0.002,
-        name: Union[None, str] = None,
-        units: Literal["s", "ms"] = "s",
+        **kwargs,
     ):
         """Initialise a wavelet class
 
         Args:
             f: The dominant frequency of the wavelet
-            nsamp: Number of samples in the wavelet
-            dt: Sample rate of the wavelet (seconds)
-            name: Name or descriptor of the wavelet
-            units: The units of the time axis, either s or ms
+            kwargs: keyword arguments passed to [`Wavelet`][sim2xwavelet]
         """
         self.f = f
-        super().__init__(nsamp=nsamp, dt=dt, name=name, units=units)
+        super().__init__(**kwargs)
         wave = ricker(self.nsamp, self.dt, f)
         self.set_wavelet(wave["time"], wave["amp"])
         self.wtype = "ricker"
@@ -406,9 +432,10 @@ class RickerWavelet(Wavelet):
 class BandpassWavelet(Wavelet):
     """A bandpass wavelet
 
+    Extends the base [`Wavelet`][sim2xwavelet] class.
+
     Attributes:
-        As for [`Wavelet`][sim2x.Wavelet]
-        fbounds: The bandpass boundaries tuple
+        fbounds (tuple): The bandpass boundaries tuple
     """
 
     def __init__(
@@ -416,23 +443,18 @@ class BandpassWavelet(Wavelet):
         fbounds: Tuple[float, float, float, float],
         norm: bool = True,
         precision: float = 0.1,
-        nsamp: int = 128,
-        dt: float = 0.002,
-        name: Union[None, str] = None,
-        units: Literal["s", "ms"] = "s",
+        **kwargs,
     ):
         """Initialise a wavelet class
 
-        fbounds: The bandpass frequency boundaries tuple
-        norm:
-        precision:
-        nsamp: Number of samples in the wavelet
-        dt: Sample rate of the wavelet (seconds)
-        name: Name or descriptor of the wavelet
-        units: The units of the time axis, either s or ms
+        Args:
+            fbounds: The bandpass frequency boundaries tuple
+            norm:
+            precision:
+            kwargs: keyword arguments passed to [`Wavelet`][sim2xwavelet]
         """
         self.fbounds = fbounds
-        super().__init__(nsamp=nsamp, dt=dt, name=name, units=units)
+        super().__init__(**kwargs)
         wave = bandpass(self.nsamp, self.dt, *fbounds, norm=norm, precision=precision)
         self.set_wavelet(wave["time"], wave["amp"])
         self.wtype = "bandpass"
@@ -441,31 +463,24 @@ class BandpassWavelet(Wavelet):
 class OrmsbyWavelet(Wavelet):
     """An Ormsby wavelet
 
+    Extends the base [`Wavelet`][sim2xwavelet] class.
+
     Attributes:
-        As for [`Wavelet`][sim2x.Wavelet]
-        fbounds: The bandpass boundaries tuple
+        fbounds (tuple): The bandpass boundaries tuple
     """
 
     def __init__(
-        self,
-        fbounds: Tuple[float, float, float, float],
-        norm: bool = True,
-        nsamp: int = 128,
-        dt: float = 0.002,
-        name: Union[None, str] = None,
-        units: Literal["s", "ms"] = "s",
+        self, fbounds: Tuple[float, float, float, float], norm: bool = True, **kwargs
     ):
         """Initialise a wavelet class
 
-        fbounds: The Ormsby frequency boundaries tuple
-        norm:
-        nsamp: Number of samples in the wavelet
-        dt: Sample rate of the wavelet (seconds)
-        name: Name or descriptor of the wavelet
-        units: The units of the time axis, either s or ms
+        Args:
+            fbounds: The Ormsby frequency boundaries tuple
+            norm:
+            kwargs: keyword arguments passed to [`Wavelet`][sim2xwavelet]
         """
         self.fbounds = fbounds
-        super().__init__(nsamp=nsamp, dt=dt, name=name, units=units)
+        super().__init__(**kwargs)
         wave = ormsby(self.nsamp, self.dt, *fbounds, norm=norm)
         self.set_wavelet(wave["time"], wave["amp"])
         self.wtype = "ormsby"
@@ -474,8 +489,10 @@ class OrmsbyWavelet(Wavelet):
 class PetrelWavelet(Wavelet):
     """A wavelet loaded from a Petrel file.
 
-    Attributes:
+    Extends the base [`Wavelet`][sim2xwavelet] class.
 
+    Attributes:
+        file (str): The filepath of the loaded wavelet
     """
 
     def __init__(self, filepath: Pathlike, norm: bool = False):

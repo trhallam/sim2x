@@ -18,7 +18,7 @@
 
 ## `sim2x.BandpassWavelet`
 
-::: sim2x._sim2seis._wavelets.Wavelet
+::: sim2x._sim2seis._wavelets.BandpassWavelet
     rendering:
       show_root_heading: false
       show_root_toc_entry: false
@@ -27,7 +27,7 @@
 
 ## `sim2x.OrmsbyWavelet`
 
-::: sim2x._sim2seis._wavelets.Wavelet
+::: sim2x._sim2seis._wavelets.OrmsbyWavelet
     rendering:
       show_root_heading: false
       show_root_toc_entry: false
@@ -36,7 +36,7 @@
 
 ## `sim2x.PetrelWavelet`
 
-::: sim2x._sim2seis._wavelets.Wavelet
+::: sim2x._sim2seis._wavelets.PetrelWavelet
     rendering:
       show_root_heading: false
       show_root_toc_entry: false
