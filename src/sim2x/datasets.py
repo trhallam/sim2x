@@ -35,7 +35,7 @@ def unzip_the_data(fname, action, pooch):
         with zipfile.ZipFile(fpath, "r") as zip_file:
             zip_file.extractall(unzipped_path)
 
-    return unzipped_path
+    return unzipped_path / fpath.stem
 
 
 def fetch_example_data():

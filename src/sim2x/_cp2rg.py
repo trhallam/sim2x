@@ -1,4 +1,4 @@
-from typing import Tuple, List, Union, Sequence
+from typing import Tuple, List, Union, Sequence, Dict, Any
 from functools import reduce
 
 import pandas as pd
@@ -276,3 +276,43 @@ def cpgrid_to_rg(
         return xr.map_blocks(
             _block_gilogs_mapper, template, args=(xyzcorn_df,), template=template
         )
+
+
+def _add_nan_row_to_df(df: pd.DataFrame, nan_index: Any = -1) -> pd.DataFrame:
+    """Add a nan row to the end of a dataframe with index `nan_index`.
+
+    Args:
+        df: The dataframe to extend
+        nan_index: the index value to map to nan
+
+    Returns:
+        a dataframe with an extra nan row concatenated to the end
+    """
+    shape = df.shape
+    non_cell = pd.DataFrame(index=[nan_index], data={key: np.nan for key in df.columns})
+    return pd.concat([df, non_cell])
+
+
+def map_to_gi_vol(df: pd.DataFrame, gi_vol: xr.Dataset) -> xr.Dataset:
+    """Convert a dataframe of properties to an xarray volume use the df index
+
+    Args:
+        df: A dataframe where gi is the index
+        gi_vol: The volume of gi values to map df to
+
+    Returns:
+        An xarray with the columns in df mapped to gi_vol via the df index
+    """
+
+    rem = dict()
+    dims = tuple(key for key in gi_vol.dims)
+    shape = tuple(gi_vol.dims[key] for key in dims)
+    gi_vol = gi_vol.transpose(*dims)
+    geom = gi_vol.drop("gi").copy()
+    indexer = gi_vol.gi.values.astype(np.int64).ravel()
+    _tdf = _add_nan_row_to_df(df)
+    for col in df.columns:
+        _tgeom = geom.copy()
+        _tgeom[col] = (dims, _tdf.loc[indexer, col].values.reshape(shape))
+        rem[col] = _tgeom
+    return xr.merge(rem.values())

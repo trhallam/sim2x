@@ -123,178 +123,43 @@ def reflectivity_vol(
     return refl_ds
 
 
-def fast_traceconv(twt, refl_coef, wamp, trace_twt):
-    """Skip the gaffe and perform reflectivity and wavelet frequency convolution.
+def convolution1d_vol(
+    ds: xr.Dataset,
+    reflectivity_key: str,
+    wavelet_amp,
+    mapping_dims: Sequence[str] = ("xline", "iline"),
+) -> xr.Dataset:
+    """Convert elastic properties "vp", "vs" and "density" to reflectivity using 1d convolution and a wavelet
 
-    This function assumes that the sampling rate of the inputs is already suitable
-    for 1D convolution. For a function with helper options see synth.traceconv.
-
-    Args:
-        twt (array-like): Two-way-time values corresponding to rc
-        refl_coef (array-like): Reflection coefficients to convolve with waveltet
-        wamp (array-like): Wavelet amplitude samples
-
-    Returns:
-        (array-like): convolved trace
-    """
-    synth = fftconvolve(refl_coef, wamp, mode="same")
-    twt_synth = interp1d(twt, synth, kind="cubic", bounds_error=False)
-    return twt_synth(trace_twt)
-
-
-def traceconv(twt, rc, wamp, dt, sub=0.001, trace_twt=None, return_twt=False):
-    """Reflectivity and wavelet frequency convolution
+    Wavelet must have same sample rate as seismic twt
 
     Args:
-        twt (array-like): Two-way-time values corresponding to rc (ms)
-        rc (array-like): Reflection coefficients to convolve with wavelet
-        wamp (array-like): Wavelet amplitude
-        dt (float): Wavelet sample rate (ms)
-        sub (float, optional): Defaults to 0.001.
-            This is the subsampling to perform the convolution at. The output
-            sample rate will be the same as dt.
-        trace_twt (optional): Defaults to None
-
-        return_twt (bool, optional): Defaults to False
-            If True, the output TWT and trace are returned as a column vector pair.
+        ds: A Dataset with the properties to depth convert. Has same dims s `twt_vol`
+        mapping_dims: The dimensions over which to map the funciton
 
     Returns:
-        (array-like): Convolved trace
+        The properties of `depth_ds` converted to twt using `twt_vol`
     """
-    twt_min = twt.min()
-    twt_max = twt.max()
-    sub_twt = np.arange(twt_min, twt_max, sub)
-    if trace_twt is None:  #  create output sampling array
-        trace_twt = np.arange(twt_min, twt_max, dt)
-    if dt != sub:  #  resample wavelet
-        wt = np.arange(0, wamp.size * dt, dt)
-        wts = np.arange(0, wamp.size * dt, sub)
-        wave = interp1d(wt, wamp, kind="cubic", fill_value="extrapolate")
-        wamp = wave(wts)
-    twt_rc = interp1d(twt, rc, bounds_error=False)
-    synth = fast_traceconv(sub_twt, twt_rc(sub_twt), wamp, trace_twt)
-    if return_twt:
-        return np.c_[trace_twt, synth]
-    else:
-        return synth
 
+    for dim in mapping_dims:
+        assert dim in ds.dims
 
-def convolution_1d(
-    dataset,
-    wavelet,
-    theta,
-    vp_var,
-    vs_var,
-    rho_var,
-    twt_var,
-    twt=None,
-    conv_dt=0.001,
-    silent=False,
-    refl_method="zoep_pud",
-):
-    """Perform 1D convolution on a 3D xarray dataset.
+    def _conv_mapper(trace):
+        trace["amp"] = (
+            ("twt"),
+            fftconvolve(trace[reflectivity_key].values, wavelet_amp, mode="same"),
+        )
+        return trace
 
-    Assumes model is in depth rather than time. Although you can set twt_var to
-    be the k dimension coordinate.
+    def _blocks_conv_mapper(ds):
+        stack = ds.stack({"trace": mapping_dims})
+        preserve_dim_order = tuple(key for key in ds.dims)
+        refl_block = stack.groupby("trace").map(_conv_mapper).unstack("trace")
 
-    Args:
-        dataset (xarray.Dataset): Should have dimensions (i, j, k), easiest to
-         get from etlpy.models.EarthModel
-        wavelet (etlpy.seismic.Wavelet): wavelet to use for convultion
-        theta (float/list[float]): A float of list of float angles to perform
-            convultion modelling over.
-        vp_var (str): P-velocity variable in dataset to use for modelling.
-        vs_var (str): S-velocity variable in dataset to use for modelling.
-        rho_var (str): Density variable in dataset to use for modelling.
-        twt_var (str): TWT variable in dataset to use for zstick conversion.
-        twt (array-like): Specify an out twt sampling.
-        conv_dt (float): The sample rate at which to perform convolution.
-        silent (bool, optional): Turn off the progress bar. Defaults to False
-        refl_method (str, optional): The reflectivity calculatio nmethod.
-            Choose from 'zoep_pud' and 'ar'. Defaults to 'zoep_pud'.
+        return refl_block.transpose(*preserve_dim_order)
 
-    Returns:
-        (array-like): Synthetic trace volume.
-    """
-    try:
-        ni, nj, nk = dataset.dims.values()
-    except ValueError:
-        raise ValueError(f"expect dimensions (i, j, k) but got {dataset.dims}")
-
-    theta = np.atleast_1d(theta)
-    theta = np.deg2rad(theta)
-
-    if twt is None:
-        vert_size = dataset.vert.size
-        twt_stick = np.array([])
-        subtwt = np.array([])
-    else:
-        vert_size = twt.size
-        twt_stick = twt
-        subtwt = np.arange(twt_stick.min(), twt_stick.max(), conv_dt)
-
-    synth = np.zeros((ni, nj, vert_size))  # preallocate output memory
-
-    # wavelet setup
-    wavelet = wavelet.copy()
-    if wavelet.dt != conv_dt:
-        wavelet.resample(conv_dt)
-
-    intp_kwargs = {"kind": "linear", "bounds_error": False, "assume_sorted": True}
-
-    tqdm_pbar = tqdm(total=ni * nj, desc="Convolving Trace", disable=silent)
-    # loop traces
-    for i in dataset.iind.values:
-        for j in dataset.jind.values:
-            trace_s_ = np.s_[i, j, :]
-
-            if np.all(np.isnan(dataset[vp_var][trace_s_].values)):
-                # empty TWT
-                synth[i, j, :] = 0.0
-
-            else:
-                if twt is None:
-                    twt_stick = dataset[twt_var][trace_s_].values
-                    subtwt = np.arange(twt_stick.min(), twt_stick.max(), conv_dt)
-
-                vp_subtwt = interp1d(
-                    dataset[twt_var][trace_s_].values,
-                    dataset[vp_var][trace_s_].values,
-                    **intp_kwargs,
-                )(subtwt)
-
-                vs_subtwt = interp1d(
-                    dataset[twt_var][trace_s_].values,
-                    dataset[vs_var][trace_s_].values,
-                    **intp_kwargs,
-                )(subtwt)
-
-                rho_subtwt = interp1d(
-                    dataset[twt_var][trace_s_].values,
-                    dataset[rho_var][trace_s_].values,
-                    **intp_kwargs,
-                )(subtwt)
-
-                trace = np.zeros_like(subtwt)
-
-                for th in theta.ravel():
-                    reflc = reflectivity(
-                        th, vp_subtwt, vs_subtwt, rho_subtwt, method=refl_method
-                    )
-                    trace[1:] = trace[1:] + fftconvolve(reflc, wavelet.amp, mode="same")
-                trace = trace / theta.size
-                # output a required dt
-                synth[i, j, :] = interp1d(
-                    subtwt,
-                    trace,
-                    kind="cubic",
-                    bounds_error=False,
-                    fill_value=0.0,
-                    assume_sorted=True,
-                )(twt_stick)
-            tqdm_pbar.update()
-    tqdm_pbar.close()
-    return synth
+    seis_ds = ds.map_blocks(_blocks_conv_mapper, template=ds)
+    return seis_ds
 
 
 def _convolution_psf_line_inner(
