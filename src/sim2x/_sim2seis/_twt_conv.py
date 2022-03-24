@@ -1,8 +1,13 @@
-from typing import Tuple, Sequence
+from typing import Tuple, Sequence, Literal, Union
+from functools import partial
+
 
 import numpy as np
+from numpy import typing as npt
 import xarray as xr
 from scipy.interpolate import interp1d
+
+from ._sinc import sinc_interp1d, make_sinc_table
 
 
 def time_integral(vp, depth_dim="depth"):
@@ -78,78 +83,116 @@ def peg_time_interval(
     return twt_interp
 
 
-def calc_twt_range(twt_vol: xr.DataArray, srate: float = 0.001):
-    """Calculate the twt range so we convieniently land on whole numbers start from zero and
-    incrementing at dt.
+def calc_domain_range(domain_vol: xr.DataArray, srate: float = 0.001):
+    """Calculate the domain range so we convieniently land on whole numbers starting from near the limit of our data and
+    incrementing at srate.
 
     Args:
-        twt_vol:
-        srate:
+        vol: Volume mapping dims of `domain_vol` to target domain
+        srate: The sample rate in the target domain
+
+    Returns:
+        appropriate domain_stick for domain_vol to convert to
     """
     srate_str = str(srate)
     dp_in_srate = len(srate_str) - srate_str.find(".") - 1
-    minround = np.around(twt_vol.min().values - srate, dp_in_srate)
-    maxround = np.around(twt_vol.max().values + srate, dp_in_srate)
+    minround = np.around(domain_vol.min().values - srate, dp_in_srate)
+    maxround = np.around(domain_vol.max().values + srate, dp_in_srate)
 
-    twt_range = np.arange(minround, maxround, srate)
-    return twt_range
+    domain_range = np.arange(minround, maxround, srate)
+    return domain_range
 
 
-def time_convert_vol(
-    twt_vol: xr.DataArray,
-    depth_ds: xr.Dataset,
+def domain_convert_vol(
+    domain_vol: xr.DataArray,
+    ds: xr.Dataset,
     mapping_dims: Sequence[str] = ("xline", "iline"),
     interpolation_kind="linear",
+    to_dim: str = "twt",
+    from_dim: str = "depth",
+    domain_vol_direction: Literal["forward", "reverse"] = "forward",
+    output_samples: Union[None, npt.ArrayLike] = None,
 ) -> xr.Dataset:
     """Convert depth volumes to TWT
 
     Args:
-        twt_vol: A DataArray with the twt values for depth
-        depth_ds: A Dataset with the properties to depth convert. Has same dims s `twt_vol`
+        domain_vol: A DataArray with the `to_dim` values for `from_dim`
+        ds: A Dataset with the properties to depth convert. Has same dims s `twt_vol`
         mapping_dims: The dimensions over which to map the funciton
-        interpolation_kind: As for scipy.interpolate.interp1d(kind=)
+        interpolation_kind: As for scipy.interpolate.interp1d(kind=) or `sinc`. `sinc` uses internal algorithm
+        to_dim: The domain dimension for the current input `ds`
+        from_dim: The domain dimension to map to
+        domain_vol_direction: If domain volume maps `to_dim` to `from_dim` use forward, otherwise `reverse.
+        output_samples: Specify the samples at which ds will be interpolated to using `domain_vol`. Should be a 1D array. Ignored if `domain_vol_direction="reverse"`
 
     Returns:
-        The properties of `depth_ds` converted to twt using `twt_vol`
+        The properties of `ds` converted to twt using `twt_vol`
     """
-    if "twt" in depth_ds.data_vars:
-        raise ValueError("twt variable cannot be in `depth_ds`")
+    if to_dim in ds.data_vars:
+        raise ValueError(f"{to_dim} variable cannot be in `ds`")
 
     for dim in mapping_dims:
-        assert dim in twt_vol.dims
-        assert dim in depth_ds.dims
+        assert dim in domain_vol.dims
+        assert dim in ds.dims
 
-    twt_range = calc_twt_range(twt_vol)
+    if output_samples is None and domain_vol_direction == "forward":
+        # going forward, don't know zstick of output
+        domain_range = calc_domain_range(domain_vol)
+    elif output_samples is not None and domain_vol_direction == "forward":
+        # output has been explicitly specified
+        domain_range = np.atleast_1d(output_samples)
+        assert len(domain_range.shape) == 1
+    elif domain_vol_direction == "reverse":
+        # use the z stick of the domain vol
+        domain_range = domain_vol[to_dim].values
 
-    template = depth_ds.drop_dims("depth")
-    template["twt"] = (("twt",), twt_range)
-    depth_ds["twt_trace"] = twt_vol
+    template = ds.drop_dims(from_dim)
+    template[to_dim] = ((to_dim,), domain_range)
+    ds[f"{to_dim}_trace"] = domain_vol
 
-    def _trace_time_conv_mapper(trace, twt_range=None):
-        out = trace.drop_dims("depth").copy()
-        out["twt"] = (("twt",), twt_range)
+    if interpolation_kind == "sinc":
+        sinc_tab = make_sinc_table(16, 100)
+        interpolator = partial(sinc_interp1d, sinc_tab=sinc_tab)
+    else:
+        interpolator = partial(
+            interp1d, bounds_error=False, fill_value=np.nan, kind=interpolation_kind
+        )
+    # print(ds)
+
+    def _trace_time_conv_mapper(trace, domain_range=None):
+        out = trace.drop_dims(from_dim).copy()
+        out[to_dim] = ((to_dim,), domain_range)
+
         for var in trace.data_vars:
-            out[var] = (
-                ("twt",),
-                interp1d(
-                    trace.twt_trace.values,
-                    trace[var].values,
-                    bounds_error=False,
-                    fill_value=np.nan,
-                    kind=interpolation_kind,
-                )(twt_range),
-            )
+            if not from_dim in trace[var].dims:
+                continue
+            if domain_vol_direction == "forward":
+                out[var] = (
+                    (to_dim,),
+                    interpolator(
+                        trace[f"{to_dim}_trace"].values,
+                        trace[var].values,
+                    )(domain_range),
+                )
+            else:
+                out[var] = (
+                    (to_dim,),
+                    interpolator(
+                        trace[f"{from_dim}"].values,
+                        trace[var].values,
+                    )(trace[f"{to_dim}_trace"].values),
+                )
         return out
 
     def _blocks_time_conv_mapper(ds):
-        stack = depth_ds.stack({"trace": mapping_dims})
+        stack = ds.stack({"trace": mapping_dims})
         # preserve_dim_order = tuple(key for key in ds.dims)
-        twt_block = (
+        block = (
             stack.groupby("trace")
-            .map(_trace_time_conv_mapper, twt_range=twt_range)
+            .map(_trace_time_conv_mapper, domain_range=domain_range)
             .unstack("trace")
         )
-        return twt_block  # .transpose(*preserve_dim_order)
+        return block  # .transpose(*preserve_dim_order)
 
-    twt_ds = depth_ds.map_blocks(_blocks_time_conv_mapper, template=template)
-    return twt_ds
+    dom_ds = ds.map_blocks(_blocks_time_conv_mapper, template=template)
+    return dom_ds
