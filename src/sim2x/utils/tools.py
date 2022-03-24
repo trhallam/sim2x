@@ -95,6 +95,22 @@ def module_loader(module_name, module_path):
     return module
 
 
+def _optional_import_(module: str, name: str = None, package: str = None):
+    try:
+        module = importlib.import_module(module)
+        return module if name is None else importlib.import_module(name, module)
+    except ImportError as e:
+        if package is None:
+            package = module
+        msg = f"install the '{package}' package to make use of this feature"
+        import_error = e
+
+        def _failed_import(*args):
+            raise ValueError(msg) from import_error
+
+        _failed_import()
+
+
 def check_broadcastable(**kwargs: NDArrayOrFloat) -> tuple:
     """Check that kwargs can be numpy broadcast against each other for matrix
     operations.
