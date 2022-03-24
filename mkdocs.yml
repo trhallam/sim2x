@@ -88,7 +88,7 @@ nav:
       - "Wavelets": examples/example_wavelets.py
       # - "PSF":
       # - 
-      # - "Sim2X seis"
+      - "Full Sim2seis": examples/example_t1a.py
     - "CLI":
       - "CLI Introduction": "cli/cli_intro.md"
       - "Simulation to Impedance": "cli/imp.md"

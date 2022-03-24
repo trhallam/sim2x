@@ -62,8 +62,7 @@ def peg_time_interval(
     twt_surf: xr.DataArray,
     mapping_dims: Sequence[str] = ("xline", "iline"),
 ) -> xr.Dataset:
-    """
-    Shifts twt_vol to create such that the depth conversion of `depth_surf` with `twt_vol` matches
+    """Shifts twt_vol to create such that the depth conversion of `depth_surf` with `twt_vol` matches
     `twt_surf`
 
     Args:
@@ -113,7 +112,7 @@ def domain_convert_vol(
     domain_vol_direction: Literal["forward", "reverse"] = "forward",
     output_samples: Union[None, npt.ArrayLike] = None,
 ) -> xr.Dataset:
-    """Convert depth volumes to TWT
+    """Convert volumes between different domains (e.g. TWT to DEPTH)
 
     Args:
         domain_vol: A DataArray with the `to_dim` values for `from_dim`
@@ -126,7 +125,7 @@ def domain_convert_vol(
         output_samples: Specify the samples at which ds will be interpolated to using `domain_vol`. Should be a 1D array. Ignored if `domain_vol_direction="reverse"`
 
     Returns:
-        The properties of `ds` converted to twt using `twt_vol`
+        The properties of `ds` converted to domain using `domain_vol`
     """
     if to_dim in ds.data_vars:
         raise ValueError(f"{to_dim} variable cannot be in `ds`")
@@ -157,7 +156,6 @@ def domain_convert_vol(
         interpolator = partial(
             interp1d, bounds_error=False, fill_value=np.nan, kind=interpolation_kind
         )
-    # print(ds)
 
     def _trace_time_conv_mapper(trace, domain_range=None):
         out = trace.drop_dims(from_dim).copy()
