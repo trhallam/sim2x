@@ -15,7 +15,7 @@
     
     
       
-        <title>Manual sim2imp - Sim2x Documentation</title>
+        <title>Example PSF Wavelet Construction - Sim2x Documentation</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#manual-sim2imp" class="md-skip">
+        <a href="#example-psf-wavelet-construction" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Manual sim2imp
+              Example PSF Wavelet Construction
             
           </span>
         </div>
@@ -188,15 +188,13 @@
         
   
   
-    
-  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../ug/framework.html" class="md-tabs__link md-tabs__link--active">
+      <a href="../ug/framework.html" class="md-tabs__link">
         User Guide
       </a>
     </li>
@@ -359,14 +357,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" data-md-state="indeterminate" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -401,16 +397,14 @@
               
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_2" data-md-state="indeterminate" type="checkbox" id="__nav_2_2" checked>
       
       
       
@@ -431,21 +425,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="example_sim2imp.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="example_sim2imp.html" class="md-nav__link">
         Manual sim2imp
       </a>
-      
     </li>
   
 
@@ -693,6 +677,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-base-wavelet" class="md-nav__link">
+    Create a base wavelet
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -703,14 +702,14 @@
             <article class="md-content__inner md-typeset">
               
 
-<a href="example_sim2imp.ipynb" title="Download Notebook" class="md-content__button md-icon">
+<a href="example_psf.ipynb" title="Download Notebook" class="md-content__button md-icon">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7 7-7z"/></svg>
 </a>
 
 
 
                 
-<a href="https://github.com/trhallam/sim2x/edit/main/docs/examples/example_sim2imp.py" title="Edit this page" class="md-content__button md-icon">
+<a href="https://github.com/trhallam/sim2x/edit/main/docs/examples/example_psf.py" title="Edit this page" class="md-content__button md-icon">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
 </a>
 
@@ -1745,7 +1744,19 @@ Licensed under the Apache License, Version 2.0.
     }
     init_mathjax();
     </script>
-    <!-- End of mathjax configuration --><div class="jupyter-wrapper"><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+    <!-- End of mathjax configuration --><div class="jupyter-wrapper">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h1 id="example-psf-wavelet-construction">Example PSF Wavelet Construction<a class="anchor-link" href="#example-psf-wavelet-construction">&#182;</a></h1><p>Sim2x uses an analytic form the PSF wavelet based upon the method of incident rays by ...</p>
+
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -1779,17 +1790,6 @@ Licensed under the Apache License, Version 2.0.
 </div>
 
 </div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="manual-sim2imp">Manual <code>sim2imp</code><a class="anchor-link" href="#manual-sim2imp">&#182;</a></h1>
-</div>
-</div>
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
@@ -1811,9 +1811,9 @@ Licensed under the Apache License, Version 2.0.
                 </div>
             </clipboard-copy>
         </div>
-            <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">sim2x</span> <span class="kn">import</span> <span class="n">sim2imp</span>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 </pre></div>
-<div id="cell-2" class="clipboard-copy-txt">from sim2x import sim2imp</div>
+<div id="cell-2" class="clipboard-copy-txt">from matplotlib import pyplot as plt</div>
     
         </div>
     </div>
@@ -1822,13 +1822,24 @@ Licensed under the Apache License, Version 2.0.
 </div>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="create-a-base-wavelet">Create a base wavelet<a class="anchor-link" href="#create-a-base-wavelet">&#182;</a></h2>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
         
         
         <div class="CodeMirror cm-s-jupyter">
@@ -1843,9 +1854,502 @@ Licensed under the Apache License, Version 2.0.
                 </div>
             </clipboard-copy>
         </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">sim2x</span> <span class="kn">import</span> <span class="n">wavelets</span> <span class="k">as</span> <span class="n">wv</span>
+<span class="n">ricker</span> <span class="o">=</span> <span class="n">wv</span><span class="o">.</span><span class="n">RickerWavelet</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">ricker</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">ricker</span><span class="o">.</span><span class="n">as_seconds</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ricker</span><span class="o">.</span><span class="n">time</span><span class="p">,</span> <span class="n">ricker</span><span class="o">.</span><span class="n">amp</span><span class="p">)</span>
+</pre></div>
+<div id="cell-3" class="clipboard-copy-txt">from sim2x import wavelets as wv
+ricker = wv.RickerWavelet(25, )
+ricker.resample(dt=0.001)
+ricker.as_seconds()
+
+plt.plot(ricker.time, ricker.amp)</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>[&lt;matplotlib.lines.Line2D at 0x7f2120bcbbe0&gt;]</pre>
+</div>
+
+</div>
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+<div class="jp-RenderedImage jp-OutputArea-output ">
+<img src="data:image/png;base64,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
+"
+class="
+jp-needs-light-background
+"
+>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-4">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">from</span> <span class="nn">sim2x._sim2seis._psf</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+<div id="cell-4" class="clipboard-copy-txt">from sim2x._sim2seis._psf import *</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-5">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+</pre></div>
+<div id="cell-5" class="clipboard-copy-txt">import xarray as xr</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-6">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">fdom_ricker</span> <span class="o">=</span> <span class="n">analytic_illumination_kdom</span><span class="p">(</span><span class="n">ricker</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3500</span><span class="p">,</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">))</span>
+</pre></div>
+<div id="cell-6" class="clipboard-copy-txt">fdom_ricker = analytic_illumination_kdom(ricker, 20, 20, 3500, (20, 25), (10, 15), size=(64, 64, 128))</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-7">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">fdom_ricker</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">kx</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;kz&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">fdom_ricker</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">ky</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;kz&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">fdom_ricker</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">kz</span><span class="o">=-</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;ky&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+<div id="cell-7" class="clipboard-copy-txt">fig, axs = plt.subplots(ncols=3, figsize=(15, 4))
+fdom_ricker.sel(kx=0).plot(y="kz", ax=axs[0])
+fdom_ricker.sel(ky=0).plot(y="kz", ax=axs[1])
+fdom_ricker.sel(kz=-0.02, method="nearest").plot(y="ky", ax=axs[2])</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[7]:</div>
+
+
+
+
+<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
+<pre>&lt;matplotlib.collections.QuadMesh at 0x7f2120981610&gt;</pre>
+</div>
+
+</div>
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+<div class="jp-RenderedImage jp-OutputArea-output ">
+<img src="data:image/png;base64,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
+"
+class="
+jp-needs-light-background
+"
+>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-8">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">psf_ricker</span> <span class="o">=</span> <span class="n">psf</span><span class="p">(</span><span class="n">ricker</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">3500</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span> <span class="n">gaussian_sigma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">twt</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+<div id="cell-8" class="clipboard-copy-txt">psf_ricker = psf(ricker, 20, 20, 3500, [10, 25], [0, 15], size=(64, 64, 128), gaussian_sigma=0.5, twt=True)</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+Input <span class="ansi-green-fg">In [8]</span>, in <span class="ansi-cyan-fg">&lt;cell line: 1&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span> psf_ricker <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">psf</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">ricker</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">20</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">20</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">3500</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">10</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">25</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">[</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">0</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">15</span><span class="ansi-yellow-bg">]</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">size</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">64</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">64</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">128</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">gaussian_sigma</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">0.5</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">twt</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">~/.local/lib/python3.8/site-packages/sim2x/_sim2seis/_psf.py:254</span>, in <span class="ansi-cyan-fg">psf</span><span class="ansi-blue-fg">(wavelet, dil, dxl, vavg, angi, angx, size, gaussian_sigma, twt)</span>
+<span class="ansi-green-intense-fg ansi-bold">    249</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> gaussian_sigma <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
+<span class="ansi-green-intense-fg ansi-bold">    250</span>     ilum <span style="color: rgb(98,98,98)">=</span> gaussian_filter(ilum, (<span style="color: rgb(98,98,98)">0.5</span>))
+<span class="ansi-green-intense-fg ansi-bold">    252</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> xr<span style="color: rgb(98,98,98)">.</span>DataArray(
+<span class="ansi-green-intense-fg ansi-bold">    253</span>     fftpack<span style="color: rgb(98,98,98)">.</span>fftshift(
+<span class="ansi-green-fg">--&gt; 254</span>         fftpack<span style="color: rgb(98,98,98)">.</span>ifftn(fftpack<span style="color: rgb(98,98,98)">.</span>ifftshift(<span class="ansi-yellow-bg">ilum</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">transpose</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">kx</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">ky</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">kz</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&#34;</span><span class="ansi-yellow-bg">)</span><span style="color: rgb(98,98,98)">.</span>data))
+<span class="ansi-green-intense-fg ansi-bold">    255</span>     )<span style="color: rgb(98,98,98)">.</span>real,
+<span class="ansi-green-intense-fg ansi-bold">    256</span>     dims<span style="color: rgb(98,98,98)">=</span>[<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">x</span><span style="color: rgb(175,0,0)">&#34;</span>, <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">y</span><span style="color: rgb(175,0,0)">&#34;</span>, <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">z</span><span style="color: rgb(175,0,0)">&#34;</span>],
+<span class="ansi-green-intense-fg ansi-bold">    257</span>     coords<span style="color: rgb(98,98,98)">=</span>{<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">x</span><span style="color: rgb(175,0,0)">&#34;</span>: ((<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">x</span><span style="color: rgb(175,0,0)">&#34;</span>), x), <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">y</span><span style="color: rgb(175,0,0)">&#34;</span>: ((<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">y</span><span style="color: rgb(175,0,0)">&#34;</span>), y), <span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">z</span><span style="color: rgb(175,0,0)">&#34;</span>: ((<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">z</span><span style="color: rgb(175,0,0)">&#34;</span>), vert)},
+<span class="ansi-green-intense-fg ansi-bold">    258</span>     name<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">psf</span><span style="color: rgb(175,0,0)">&#34;</span>,
+<span class="ansi-green-intense-fg ansi-bold">    259</span>     attrs<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(0,135,0)">dict</span>(
+<span class="ansi-green-intense-fg ansi-bold">    260</span>         dil<span style="color: rgb(98,98,98)">=</span>dil,
+<span class="ansi-green-intense-fg ansi-bold">    261</span>         dxl<span style="color: rgb(98,98,98)">=</span>dxl,
+<span class="ansi-green-intense-fg ansi-bold">    262</span>         vavg<span style="color: rgb(98,98,98)">=</span>vavg,
+<span class="ansi-green-intense-fg ansi-bold">    263</span>         angi<span style="color: rgb(98,98,98)">=</span>angi,
+<span class="ansi-green-intense-fg ansi-bold">    264</span>         angx<span style="color: rgb(98,98,98)">=</span>angx,
+<span class="ansi-green-intense-fg ansi-bold">    265</span>         sigma<span style="color: rgb(98,98,98)">=</span>gaussian_sigma,
+<span class="ansi-green-intense-fg ansi-bold">    266</span>         twt<span style="color: rgb(98,98,98)">=</span>twt,
+<span class="ansi-green-intense-fg ansi-bold">    267</span>     ),
+<span class="ansi-green-intense-fg ansi-bold">    268</span> )
+
+<span class="ansi-red-fg">TypeError</span>: &#39;str&#39; object cannot be interpreted as an integer</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-9">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">psf_ricker</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">psf_ricker</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">psf_ricker</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+<div id="cell-9" class="clipboard-copy-txt">fig, axs = plt.subplots(ncols=3, figsize=(15, 4))
+psf_ricker.sel(x=0).plot(y="z", ax=axs[0])
+psf_ricker.sel(y=0).plot(y="z", ax=axs[1])
+psf_ricker.sel(z=0, method="nearest").plot(y="y", ax=axs[2])</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Input <span class="ansi-green-fg">In [9]</span>, in <span class="ansi-cyan-fg">&lt;cell line: 2&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> fig, axs <span style="color: rgb(98,98,98)">=</span> plt<span style="color: rgb(98,98,98)">.</span>subplots(ncols<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">3</span>, figsize<span style="color: rgb(98,98,98)">=</span>(<span style="color: rgb(98,98,98)">15</span>, <span style="color: rgb(98,98,98)">4</span>))
+<span class="ansi-green-fg">----&gt; 2</span> <span class="ansi-yellow-bg">psf_ricker</span><span style="color: rgb(98,98,98)">.</span>sel(x<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0</span>)<span style="color: rgb(98,98,98)">.</span>plot(y<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">z</span><span style="color: rgb(175,0,0)">&#34;</span>, ax<span style="color: rgb(98,98,98)">=</span>axs[<span style="color: rgb(98,98,98)">0</span>])
+<span class="ansi-green-intense-fg ansi-bold">      3</span> psf_ricker<span style="color: rgb(98,98,98)">.</span>sel(y<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0</span>)<span style="color: rgb(98,98,98)">.</span>plot(y<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">z</span><span style="color: rgb(175,0,0)">&#34;</span>, ax<span style="color: rgb(98,98,98)">=</span>axs[<span style="color: rgb(98,98,98)">1</span>])
+<span class="ansi-green-intense-fg ansi-bold">      4</span> psf_ricker<span style="color: rgb(98,98,98)">.</span>sel(z<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0</span>, method<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">nearest</span><span style="color: rgb(175,0,0)">&#34;</span>)<span style="color: rgb(98,98,98)">.</span>plot(y<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">y</span><span style="color: rgb(175,0,0)">&#34;</span>, ax<span style="color: rgb(98,98,98)">=</span>axs[<span style="color: rgb(98,98,98)">2</span>])
+
+<span class="ansi-red-fg">NameError</span>: name &#39;psf_ricker&#39; is not defined</pre>
+</div>
+</div>
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+<div class="jp-RenderedImage jp-OutputArea-output ">
+<img src="data:image/png;base64,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
+"
+class="
+jp-needs-light-background
+"
+>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-10">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
+            <div class="highlight-ipynb hl-python"><pre><span></span><span class="n">psf_ricker</span>
+</pre></div>
+<div id="cell-10" class="clipboard-copy-txt">psf_ricker</div>
+    
+        </div>
+    </div>
+
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+Input <span class="ansi-green-fg">In [10]</span>, in <span class="ansi-cyan-fg">&lt;cell line: 1&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">psf_ricker</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;psf_ricker&#39; is not defined</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+        
+        
+        <div class="CodeMirror cm-s-jupyter">
+        <div class="zeroclipboard-container">
+            <clipboard-copy for="cell-11">
+            <div>
+                <span class="notice" hidden>Copied!</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 16 16" version="1.1"  data-view-component="true" class="clipboard-copy-icon">
+                    <path fill="currentColor" fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path>
+                    <path fill="currentColor" fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path>
+                </svg>
+                </div>
+            </clipboard-copy>
+        </div>
             <div class="highlight-ipynb hl-python"><pre><span></span>
 </pre></div>
-<div id="cell-3" class="clipboard-copy-txt"></div>
+<div id="cell-11" class="clipboard-copy-txt"></div>
     
         </div>
     </div>
@@ -1868,41 +2372,6 @@ Licensed under the Apache License, Version 2.0.
       </main>
       
         <footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-        
-        <a href="../ug/framework.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Sim2x Framework" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Sim2x Framework
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="example_wavelets.html" class="md-footer__link md-footer__link--next" aria-label="Next: Wavelets" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Wavelets
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
