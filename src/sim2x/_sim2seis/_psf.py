@@ -1,4 +1,5 @@
-from typing import Type, Tuple
+from typing import Type, Tuple, Union
+import copy
 
 import numpy as np
 import xarray as xr
@@ -58,15 +59,15 @@ def lowest_fdom_n(wavelet: Type[Wavelet], tol: float = 0.25, maxn: int = 15) -> 
     """
     n = 6
     # normalise so tolerance is good
-    nor_wave = wavelet.copy()
-    nor_wave.amp = nor_wave.amp / np.max(np.abs(nor_wave.amp))
-    df, freq = amp_spec(nor_wave, 2 ** n)
+    nor_wave = copy.deepcopy(wavelet)
+    nor_wave.set_wavelet(amp=nor_wave.amp / np.max(np.abs(nor_wave.amp)))
+    df, freq = amp_spec(nor_wave, 2**n)
     error = 1
     while error >= tol:
         n += 1
         if n > maxn:
             break
-        temp_df, temp_freq = amp_spec(nor_wave, 2 ** n)
+        temp_df, temp_freq = amp_spec(nor_wave, 2**n)
         func = interp1d(df, freq, bounds_error=False, fill_value=0)
         error = np.sum(np.sqrt(np.power(temp_freq - func(temp_df), 2)))
         df = temp_df.copy()
@@ -93,30 +94,37 @@ def zero_grad(wavelet: Type[Wavelet], n: int, tol: float = 1e-3) -> np.ndarray:
     Returns:
         frequency range after convergence
     """
-    df, freq = amp_spec(wavelet, 2 ** n)
+    df, freq = amp_spec(wavelet, 2**n)
     grad = np.gradient(freq, df)
     slopen = np.arange(0, grad.size, 1)[np.abs(grad) >= tol][-1]
     return slopen
 
 
 def analytic_illumination_kdom(
-    wave, dil, dxl, vavg, angi, angx, size=(32, 32, 128), ret_axes=False
-):
+    wavelet: Type[Wavelet],
+    dil: float,
+    dxl: float,
+    vavg: float,
+    angi: Union[float, Tuple[float, float]],
+    angx: Union[float, Tuple[float, float]],
+    size=(32, 32, 128),
+) -> xr.DataArray:
     """Create an analytical illumination vector set in the wavenumber domain based upon idealised
     maximum illumination angles to an input
 
+    Velocity is used to convert wavelet to depth/length so it can be converted into the wavenumber domain.
+
     Args:
-        wave (etlpy.seismic.Wavelet): Input wavelet.
-        dil (float): The iline spacing of samples (m).
-        dxl (float): The xline spacing of samples (m).
-        vavg (float): Average velocity (m/s) used to transform wavelet form TWT to depth.
-        angi (tuple/float): The inline angle range, if float assumes minimum angle is zero.
-        angx (float): The xline angle range, if float assumes minimum angle is zero.
-        size (int, optional): The size of the illumination representation. Defaults to 256.
-        ret_axes (bool, optional): If true returns the kdom axes labels. Defaults to False.
+        wave: Input wavelet
+        dil: The iline spacing of samples (m).
+        dxl: The xline spacing of samples (m).
+        vavg: Average velocity (m/s) used to transform wavelet form TWT to depth.
+        angi: The inline angle range, if float assumes minimum angle is zero.
+        angx: The xline angle range, if float assumes minimum angle is zero.
+        size: The size of the illumination representation
 
     Returns:
-        array-like: The K-domain representation of the illumination functions modified for angles and wavelet.
+        The K-domain representation of the illumination functions modified for angles and wavelet
     """
 
     def ina2off(ang, height):
@@ -130,12 +138,12 @@ def analytic_illumination_kdom(
     except TypeError:
         pass
 
-    req_n = lowest_fdom_n(wave)
-    n = 2 ** req_n
-    maxk_n = zero_grad(wave, req_n)
-    freq, spec = full_spec(wave, n)
+    req_n = lowest_fdom_n(wavelet)
+    n = 2**req_n
+    maxk_n = zero_grad(wavelet, req_n)
+    freq, spec = full_spec(wavelet, n)
     # get the vertical wavenumber sampling
-    dz = wave.dt / 2 * vavg
+    dz = wavelet.dt / 2 * vavg
     kz = fftpack.fftshift(fftpack.fftfreq(n, dz))
     max_kz = kz.size
 
@@ -184,33 +192,53 @@ def analytic_illumination_kdom(
         )
         out[inner_cone] = 0
 
-    if ret_axes:
-        return out, (kx, ky, kz)
-    return out
+    ds = xr.DataArray(
+        out,
+        dims=["kx", "ky", "kz"],
+        coords={"kx": (("kx"), kx), "ky": (("ky"), ky), "kz": (("kz"), kz)},
+        name="fdom",
+        attrs=dict(
+            dil=dil,
+            dxl=dxl,
+            vavg=vavg,
+            angi=angi,
+            angx=angx,
+        ),
+    )
+    return ds
 
 
 def psf(
-    wave, dil, dxl, vavg, angi, angx, size=(32, 32, 128), guassian_sigma=0.5, twt=False
-):
+    wavelet: Type[Wavelet],
+    dil: float,
+    dxl: float,
+    vavg: float,
+    angi: Union[float, Tuple[float, float]],
+    angx: Union[float, Tuple[float, float]],
+    size=(32, 32, 128),
+    gaussian_sigma: float = 0.5,
+    twt: bool = False,
+) -> xr.DataArray:
     """Create a point spread function PSF using analytical inputs
 
     Args:
-        wave (etlpy.seismic.Wavelet): Input wavelet.
-        dil (float): The iline spacing of samples (m).
-        dxl (float): The xline spacing of samples (m).
-        vavg (float): Average velocity (m/s) used to transform wavelet form TWT to depth.
-        angi (tuple/float): The inline angle range, if float assumes minimum angle is zero.
-        angx (float): The xline angle range, if float assumes minimum angle is zero.
-        size (int, optional): The size of the illumination representation. Defaults to 256.
-        gaussian_simga (float, optional): The size of the filter to use, no filter if None.
-        twt (bool, optional): If true returns the vertical axis as twt (ms). Defaults to False.
+        wave: Input wavelet
+        dil: The iline spacing of samples (m)
+        dxl: The xline spacing of samples (m)
+        vavg: Average velocity (m/s) used to transform wavelet form TWT to depth
+        angi: The inline angle range, if float assumes minimum angle is zero
+        angx: The xline angle range, if float assumes minimum angle is zero
+        size: The size of the illumination representation
+        gaussian_simga: The size of the filter to use, no filter if None.
+        twt: If true returns the vertical axis as twt (ms). Defaults to False.
 
     Returns:
-        xarray.Dataset: The point spread function.
+        The point spread filter (wavelet)
     """
-    ilum, (kx, ky, kz) = analytic_illumination_kdom(
-        wave, dil, dxl, vavg, angi, angx, ret_axes=True, size=size
-    )
+    ilum = analytic_illumination_kdom(wavelet, dil, dxl, vavg, angi, angx, size=size)
+    kx = ilum.kx.values
+    ky = ilum.ky.values
+    kz = ilum.kz.values
     x = fftpack.fftshift(fftpack.fftfreq(kx.size, np.mean(np.diff(kx))))
     y = fftpack.fftshift(fftpack.fftfreq(ky.size, np.mean(np.diff(ky))))
     vert = fftpack.fftshift(fftpack.fftfreq(kz.size, np.mean(np.diff(kz))))
@@ -218,15 +246,23 @@ def psf(
     if twt:
         vert = 2 * vert / vavg
 
-    if guassian_sigma is not None:
+    if gaussian_sigma is not None:
         ilum = gaussian_filter(ilum, (0.5))
 
-    return xr.Dataset(
-        {
-            "psf": (
-                ("i", "j", "k"),
-                fftpack.fftshift(fftpack.ifftn(fftpack.ifftshift(ilum))).real,
-            )
-        },
-        {"x": (("i"), x), "y": (("j"), y), "vert": (("k"), vert)},
+    return xr.DataArray(
+        fftpack.fftshift(
+            fftpack.ifftn(fftpack.ifftshift(ilum.transpose("kx", "ky", "kz").data))
+        ).real,
+        dims=["x", "y", "z"],
+        coords={"x": (("x"), x), "y": (("y"), y), "z": (("z"), vert)},
+        name="psf",
+        attrs=dict(
+            dil=dil,
+            dxl=dxl,
+            vavg=vavg,
+            angi=angi,
+            angx=angx,
+            sigma=gaussian_sigma,
+            twt=twt,
+        ),
     )

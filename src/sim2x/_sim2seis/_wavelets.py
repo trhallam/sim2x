@@ -11,7 +11,6 @@ from scipy.interpolate import interp1d
 
 from ..typing import Pathlike
 
-
 spectra_dtype = np.dtype(
     [("freq", "f8"), ("amp", "c8"), ("mag", "f8"), ("phase", "f8")]
 )

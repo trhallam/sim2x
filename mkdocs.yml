@@ -19,6 +19,7 @@ theme:
 use_directory_urls: false
 repo_url: https://github.com/trhallam/sim2x
 repo_name: trhallam/sim2x
+edit_uri: edit/main/docs
 
 copyright: "Tony Hallam"
 
@@ -62,6 +63,8 @@ plugins:
       execute: true
       kernel_name: python3
       include_source: true
+      include: ["examples/example*.py"]
+      ignore: ["*.ipynb"]
   - mkdocstrings:
       default_handler: python
       watch:
